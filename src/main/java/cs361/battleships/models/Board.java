@@ -1,14 +1,20 @@
 package cs361.battleships.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
 
+	// Each board object owns a private List of the ships placed on the board
+	@JsonProperty private List<Ship> shipList;
+
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Board() {
+		this.shipList = null;
 		// TODO Implement
 	}
 
