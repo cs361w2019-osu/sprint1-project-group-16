@@ -1,31 +1,46 @@
 package cs361.battleships.models;
 
 public class Result {
+	private AtackStatus result;
+	private Ship ship;
+	private Square square;
+
+	/*********************************************************************
+	 ** Function: Result constructor
+	 ** Description: Constructs result Class
+	 ** Parameters: Starting result, starting ship and starting square
+	 ** Pre-
+	 Conditions: None
+	 ** Post-
+	 Conditions: None
+	 *********************************************************************/
+	public Result(AtackStatus startresult,Ship startship, Square startsquare ){
+		this.result = startresult;
+		this.ship = startship;
+		this.square = startsquare;
+	}
 
 	public AtackStatus getResult() {
-		//TODO implement
-		return null;
+		return this.result;
 	}
 
 	public void setResult(AtackStatus result) {
-		//TODO implement
+		this.result = result;
 	}
 
 	public Ship getShip() {
-		//TODO implement
-		return null;
+		return this.ship;
 	}
 
 	public void setShip(Ship ship) {
-		//TODO implement
+		this.ship = ship;
 	}
 
 	public Square getLocation() {
-		//TODO implement
-		return null;
+		return this.square;
 	}
 
 	public void setLocation(Square square) {
-		//TODO implement
+		this.square = square;
 	}
 }

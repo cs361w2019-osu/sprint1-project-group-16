@@ -12,3 +12,12 @@ public class BoardTest {
         assertFalse(board.placeShip(new Ship("MINESWEEPER"), 11, 'C', true));
     }
 }
+
+    @Test
+    public void testAiShot() {
+        Board board = new Board();
+
+    }
+}
+
+
