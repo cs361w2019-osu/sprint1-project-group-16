@@ -17,27 +17,40 @@ public class Ship {
 	
 	public Ship(String kind) {
 		this.kind = kind;
+
 		if(kind == "Minesweeper") {
 			this.length = 2;
-			for (int i = 0; i < this.length; i++) {
-				this.occupiedSquares.add(new Square());
-			}
 		}
 		else if(kind == "Destroyer") {
 			this.length = 3;
-			for(int i = 0; i < this.length; i++) {
-				this.occupiedSquares.add(new Square());
-			}
+		}
+		else if(kind == "Battleship") {
+			this.length = 4;
 		}
 		//TODO implement
 	}
 
-	private addSquares(int length) {
-		this.length = length
+	public void addSquares(char x, int y, boolean isVertical) {
+		/* col and row are the anchor coord */
+		int col = (int) x - 64; //convert xcoord char to an int
+		int row = y;
+
+		for (int i = 0; i < this.length; i++) {
+			if(isVertical) {
+				this.occupiedSquares.add(new Square(row, col));
+				row++;
+			}
+			else {
+				this.occupiedSquares.add(new Square(row, col));
+				col++;
+			}
+
+		}
 
 	}
 
 	public List<Square> getOccupiedSquares() {
+		return occupiedSquares;
 		//TODO implement
 		return null;
 	}
