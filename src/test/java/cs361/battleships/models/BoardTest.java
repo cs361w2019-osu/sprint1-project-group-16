@@ -14,8 +14,11 @@ public class BoardTest {
 }
 
     @Test
-    public void testAiShot() {
+    public void testShot() {
         Board board = new Board();
+        assertFalse(board.attack(0, 'A'));
+        assertFalse(board.attack(8, 'H'));
+        assertFalse(board.attack(4, 'D'));
 
     }
 }
