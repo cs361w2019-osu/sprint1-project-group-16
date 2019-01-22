@@ -14,11 +14,13 @@ public class Result {
 	 ** Post-
 	 Conditions: None
 	 *********************************************************************/
+/*
 	public Result(AtackStatus startresult,Ship startship, Square startsquare ){
 		this.result = startresult;
 		this.ship = startship;
 		this.square = startsquare;
 	}
+*/
 
 	public AtackStatus getResult() {
 		return this.result;

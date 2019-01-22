@@ -16,9 +16,11 @@ public class BoardTest {
     @Test
     public void testShot() {
         Board board = new Board();
+        board.placeShip(new Ship("MINESWEEPER"), 5, 'C', true);
         assertFalse(board.attack(0, 'A'));
         assertFalse(board.attack(8, 'H'));
         assertFalse(board.attack(4, 'D'));
+        assertFalse(board.attack(5, 'C'));
 
     }
 }
