@@ -14,7 +14,7 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Board() {
-		this.shipList = null;
+		shipList = new ArrayList<>();
 		// TODO Implement
 	}
 
@@ -22,6 +22,11 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
+		if(ship.addSquares(x, Character.toLowerCase(y), isVertical)) {
+			shipList.add(ship);
+			return true;
+		}
+
 		// TODO Implement
 		return false;
 	}

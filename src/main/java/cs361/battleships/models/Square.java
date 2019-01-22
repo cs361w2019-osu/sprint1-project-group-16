@@ -3,30 +3,30 @@ package cs361.battleships.models;
 @SuppressWarnings("unused")
 public class Square {
 
-	private int row;
-	private char column;
+	private char row ;
+	private int column;
 
 	public Square() {
 	}
 
-	public Square(int row, char column) {
+	public Square(int column, char row) {
 		this.row = row;
 		this.column = column;
 	}
 
-	public char getColumn() {
+	public int getColumn() {
 		return column;
 	}
 
-	public void setColumn(char column) {
+	public void setColumn(int column) {
 		this.column = column;
 	}
 	
-	public int getRow() {
+	public char getRow() {
 		return row;
 	}
 
-	public void setRow(int row) {
+	public void setRow(char row) {
 		this.row = row;
 	}
 }

@@ -8,7 +8,7 @@ import java.util.List;
 public class Ship {
 
 	@JsonProperty private List<Square> occupiedSquares;
-	@JsonProperty private String kind;
+	@JsonProperty private String shipType;
 	@JsonProperty private int length;
 
 	public Ship() {
@@ -16,42 +16,81 @@ public class Ship {
 	}
 	
 	public Ship(String kind) {
-		this.kind = kind;
+		occupiedSquares = new ArrayList<>();
+		this.shipType = kind.toLowerCase();
 
-		if(kind == "Minesweeper") {
+
+//		System.out.println("shipType: " + this.shipType );
+		if(this.shipType.equals("minesweeper")) {
 			this.length = 2;
+//			System.out.println("shipType: " + shipType );
 		}
-		else if(kind == "Destroyer") {
+		else if(this.shipType.equals("destroyer")) {
 			this.length = 3;
 		}
-		else if(kind == "Battleship") {
+		else if(this.shipType.equals("battleship")) {
 			this.length = 4;
 		}
 		//TODO implement
 	}
 
-	public void addSquares(char x, int y, boolean isVertical) {
+	public boolean addSquares(int x, char y, boolean isVertical) {
+		System.out.println("addSquares");
+		System.out.println("this.length:" + this.length);
 		/* col and row are the anchor coord */
-		int col = (int) x - 64; //convert xcoord char to an int
-		int row = y;
+		int col = x;
+		char row = y;
 
 		for (int i = 0; i < this.length; i++) {
 			if(isVertical) {
-				this.occupiedSquares.add(new Square(row, col));
+				System.out.println("isVertical");
+				this.occupiedSquares.add(new Square(col, row));
 				row++;
 			}
 			else {
-				this.occupiedSquares.add(new Square(row, col));
+				this.occupiedSquares.add(new Square(col, row));
 				col++;
 			}
 
 		}
 
+		if(this.isOutOfBounds()) {
+			System.out.println("isOutOfBounds");
+			return false;
+		}
+		return true;
+
+
+
+	}
+
+	/* Returns true if the squares to be added to a ship object are out of bounds */
+	private boolean isOutOfBounds() {
+		int col;
+		char row;
+//		System.out.println("Made it this far");
+
+		for (Square tmpSq : this.occupiedSquares) {
+
+			col = tmpSq.getColumn();
+			row = tmpSq.getRow();
+
+			if (row > 74 || row < 65) {
+				return true;
+			}
+			if (col > 10 || col < 1) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public List<Square> getOccupiedSquares() {
 		return occupiedSquares;
 		//TODO implement
-		return null;
+	}
+
+	public String getShipType() {
+		return this.shipType;
 	}
 }
