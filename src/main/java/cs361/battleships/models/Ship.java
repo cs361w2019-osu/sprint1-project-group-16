@@ -14,16 +14,21 @@ public class Ship {
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
 	}
-	
+
+	/**************************************************************************
+	*	Function: Ship Class Constructor
+	*	Author: Daniel Green, greendan@oregonstate.edu
+	*	Description: Constructs a Ship object, usually called by Board.placeShip()
+	*	method.
+	*	Param: A string containing the type of Ship to be constructed
+	***********************************************************************/
+
 	public Ship(String kind) {
 		occupiedSquares = new ArrayList<>();
 		this.shipType = kind.toLowerCase();
 
-
-//		System.out.println("shipType: " + this.shipType );
 		if(this.shipType.equals("minesweeper")) {
 			this.length = 2;
-//			System.out.println("shipType: " + shipType );
 		}
 		else if(this.shipType.equals("destroyer")) {
 			this.length = 3;
@@ -31,12 +36,20 @@ public class Ship {
 		else if(this.shipType.equals("battleship")) {
 			this.length = 4;
 		}
-		//TODO implement
 	}
 
+	/**************************************************************************
+	*	Function: Ship.addSquares(int, char, boolean)
+	*	Author: Daniel Green, greendan@oregonstate.edu
+	*	Description: Adds Square objects to Ship.occupiedSquares. Calls Square
+	*	constructor and performs bounds checking on the input coords.
+	*	Param: int x: column number (1-10), int y: row character (A-J)
+	*	boolean isVertical: boolean condition of the ships verticalness.
+	*	Return: boolean value indicating whether the sqaures could be added.
+	***********************************************************************/
+
 	public boolean addSquares(int x, char y, boolean isVertical) {
-		System.out.println("addSquares");
-		System.out.println("this.length:" + this.length);
+
 		/* col and row are the anchor coord */
 		int col = x;
 		char row = y;
@@ -64,7 +77,14 @@ public class Ship {
 
 	}
 
-	/* Returns true if the squares to be added to a ship object are out of bounds */
+	/**************************************************************************
+	*	Function: Ship.isOutOfBounds()
+	*	Author: Daniel Green, greendan@oregonstate.edu
+	*	Description: Checks the row and column value of each square object
+	*	contained in Ship.occupiedSquares.
+	*	Param:
+	*	Return: Boolean value indicating whether any of the squares are out of bounds.
+	***********************************************************************/
 	private boolean isOutOfBounds() {
 		int col;
 		char row;
@@ -85,11 +105,13 @@ public class Ship {
 		return false;
 	}
 
+	/* Function: Getter for Ship.occupiedSquares */
 	public List<Square> getOccupiedSquares() {
 		return occupiedSquares;
 		//TODO implement
 	}
 
+	/* Function: Getter for Ship.shipType */
 	public String getShipType() {
 		return this.shipType;
 	}
