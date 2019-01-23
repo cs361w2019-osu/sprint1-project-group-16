@@ -1,7 +1,8 @@
 package cs361.battleships.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import java.util.Random;
+import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,14 +50,30 @@ public class Game {
         return true;
     }
 
+    /*********************************************************************
+     ** Function: randCol
+     ** Description: Returns a column character, Gets a random number between 0-9, then checks an array of the alphabet
+     * It returns the character based on the number.
+     ** Parameters:  None
+     ** Dev: Douglas Wilson, Wilsondo@oregonstate.edu
+     *********************************************************************/
     private char randCol() {
-        // TODO implement
-        return 'X';
+        Random rand = new Random();
+        int randnum = rand.nextInt(9);
+        String colAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        char col = colAlphabet.charAt(randnum);
+        return col;
     }
-
+    /*********************************************************************
+     ** Function: randRow
+     ** Description: Returns a random number between 1 and 9
+     ** Parameters:  None
+     ** Dev: Douglas Wilson, Wilsondo@oregonstate.edu
+     *********************************************************************/
     private int randRow() {
-        // TODO implement
-        return 0;
+        Random rand = new Random();
+        int rownum = rand.nextInt(9);
+        return rownum;
     }
 
     private boolean randVertical() {

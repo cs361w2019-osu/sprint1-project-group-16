@@ -9,6 +9,8 @@ public class Board {
 
 	// Each board object owns a private List of the ships placed on the board
 	@JsonProperty private List<Ship> shipList;
+	@JsonProperty private List<Result> resultList;
+
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -34,26 +36,83 @@ public class Board {
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
+	/**************************************************************************
+	 *	Function: Attack action
+	 *	Author: Douglas Wilson, wilsondo@oregonstate.edu
+	 *	Description: Attacks a square with the given coordinates.
+	 *	Param: The row x and the col y.
+	 ***********************************************************************/
 	public Result attack(int x, char y) {
-		//TODO Implement
-		return null;
+		Result stat = new Result();
+		int colNum =Character.getNumericValue(y);
+
+		List<Ship> tempShip = getShips();
+
+		if(x>10 || colNum>75){
+			stat.setResult(AtackStatus.INVALID);
+			return stat;
+		}
+		else if(x < 1 || colNum < 66){
+			stat.setResult(AtackStatus.INVALID);
+			return stat;
+		}
+		//Run a for loop going through all the ships in the list, and then all the squares in the ship, checking if coordinates match.
+		for (int i = 0; i < tempShip.size(); i++) {
+			List<Square> targetSquares = tempShip.get(i).getOccupiedSquares();
+			for(int j = 0; j < targetSquares.size(); j++){
+				int row = targetSquares.get(j).getRow();
+				char col = targetSquares.get(j).getColumn();
+				if(row == x && col == y){
+					stat.setResult(AtackStatus.HIT);
+					stat.setShip(tempShip.get(i));
+					stat.setLocation(targetSquares.get(j));
+					return stat;
+				}
+			}
+		}
+
+
+			stat.setResult(AtackStatus.MISS);
+
+
+
+		return stat;
 	}
 
+	/**************************************************************************
+	 *	Function: getShips
+	 *	Author: Douglas Wilson, wilsondo@oregonstate.edu
+	 *	Description: Returns the private ships list
+	 *	Param: NONE
+	 ***********************************************************************/
 	public List<Ship> getShips() {
-		//TODO implement
-		return null;
+		return shipList;
 	}
-
+	/**************************************************************************
+	 *	Function: setShips
+	 *	Author: Douglas Wilson, wilsondo@oregonstate.edu
+	 *	Description: Sets the ships list as the parameter given
+	 *	Param: Sets shipList as ship
+	 ***********************************************************************/
 	public void setShips(List<Ship> ships) {
-		//TODO implement
+		this.shipList = ships;
 	}
-
+	/**************************************************************************
+	 *	Function: getAttacks
+	 *	Author: Douglas Wilson, wilsondo@oregonstate.edu
+	 *	Description: Returns List of Results
+	 *	Param: NONE
+	 ***********************************************************************/
 	public List<Result> getAttacks() {
-		//TODO implement
-		return null;
+		return resultList;
 	}
-
+	/**************************************************************************
+	 *	Function: setAttacks
+	 *	Author: Douglas Wilson, wilsondo@oregonstate.edu
+	 *	Description: Sets list of results
+	 *	Param: list of results
+	 ***********************************************************************/
 	public void setAttacks(List<Result> attacks) {
-		//TODO implement
+		this.resultList = attacks;
 	}
 }
