@@ -38,7 +38,6 @@ public class Board {
 	 *	Param: The row x and the col y.
 	 ***********************************************************************/
 	public Result attack(int x, char y) {
-		//TODO Implement
 		Result stat = new Result();
 		int colNum =Character.getNumericValue(y);
 

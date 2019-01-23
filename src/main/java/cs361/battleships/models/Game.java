@@ -55,10 +55,7 @@ public class Game {
      ** Description: Returns a column character, Gets a random number between 0-9, then checks an array of the alphabet
      * It returns the character based on the number.
      ** Parameters:  None
-     ** Pre-
-     Conditions: None
-     ** Post-
-     Conditions: None
+     ** Dev: Douglas Wilson, Wilsondo@oregonstate.edu
      *********************************************************************/
     private char randCol() {
         Random rand = new Random();
@@ -71,10 +68,7 @@ public class Game {
      ** Function: randRow
      ** Description: Returns a random number between 1 and 9
      ** Parameters:  None
-     ** Pre-
-     Conditions: None
-     ** Post-
-     Conditions: None
+     ** Dev: Douglas Wilson, Wilsondo@oregonstate.edu
      *********************************************************************/
     private int randRow() {
         Random rand = new Random();
