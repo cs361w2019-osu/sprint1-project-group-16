@@ -44,11 +44,11 @@ public class Board {
 
 		List<Ship> tempShip = getShips();
 
-		if(x>9 || colNum>74){
+		if(x>10 || colNum>75){
 			stat.setResult(AtackStatus.INVALID);
 			return stat;
 		}
-		else if(x < 0 || colNum < 65){
+		else if(x < 1 || colNum < 66){
 			stat.setResult(AtackStatus.INVALID);
 			return stat;
 		}
@@ -57,7 +57,7 @@ public class Board {
 			List<Square> targetSquares = tempShip.get(i).getOccupiedSquares();
 			for(int j = 0; j < targetSquares.size(); j++){
 				int row = targetSquares.get(j).getRow();
-				int col = targetSquares.get(j).getColumn();
+				char col = targetSquares.get(j).getColumn();
 				if(row == x && col == y){
 					stat.setResult(AtackStatus.HIT);
 					stat.setShip(tempShip.get(i));
