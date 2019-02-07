@@ -1,13 +1,12 @@
 /* Add additional stylesheets below
 -------------------------------------------------- */
-
 .battleGrid {
     border: 1px solid black;
-    border-spacing: 0px;
+    border-spacing: 2px;
 }
 
 .battleGrid tr {
-    border: 1px solid black;
+    /*border: 1px solid black; */
     height: 30px;
 }
 
@@ -42,22 +41,27 @@ td:hover {
 
 .game_container{
     display: flex;
-    flex-direction: row;
-  border: 1px solid #dadada;
+    justify-content: center;
+    border: 1px solid #dadada;
     font-size: 16px;
     background-color: #eee;
 }
 
-.interaction_container{
-
-    }
-
 .table_container{
     display: flex;
+    justify-content: center;
     flex-direction: column;
 }
-.stat_container{
+
+.interaction_container{
+
+}
+
+
+
+#sidebar{
     display: flex;
+    justify-content: left;
     flex-direction: column;
     padding-left: 10px;
     margin-top: -20px;
@@ -124,34 +128,34 @@ text-align: center;
 }
 
 #fire_button{
-border: none;
-  border-radius: 30px;
-  font-size: 30px;
-  background-color: blue;
-  color: white;
-  cursor: pointer;
-  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.25);
-}
-
-#fire_button:hover,
-#fire_button:focus {
-  border-radius: 30px;
-  font-size: 30px;
-  background-color: red;
-  }
-
-  #add_ship{
-  border: none;
+    border: none;
     border-radius: 30px;
     font-size: 30px;
     background-color: blue;
     color: white;
     cursor: pointer;
     box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.25);
-  }
+}
 
-  #add_ship:hover,
-  #add_ship:focus {
+#fire_button:hover,
+#fire_button:focus {
+    border-radius: 30px;
+    font-size: 30px;
+    background-color: red;
+}
+
+#add_ship{
+    border: none;
+    border-radius: 30px;
+    font-size: 30px;
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+#add_ship:hover,
+#add_ship:focus {
     border-radius: 30px;
     font-size: 30px;
     background-color: red;
@@ -178,11 +182,11 @@ border: none;
     height: 200px;
 
 }
-.modal_title{
+#modal_title{
     display: flex;
 }
 
-.modal_title{
+#modal_title{
     margin-left: 15px;
 }
 
@@ -210,3 +214,33 @@ button{
         cursor:pointer;
         overflow: hidden;
  }
+
+ #modal-backdrop {
+   position: fixed;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   z-index: 1000;
+   background-color: rgba(0, 0, 0, 0.85);
+ }
+
+#modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1010;
+    overflow: scroll;
+ }
+
+#modal-dialog {
+    width: auto;
+    max-width: 600px;
+    min-width: 350px;
+    min-height: 300px;
+    margin: 40px auto;
+    background-color: #fff;
+    border-radius: 15px;
+}

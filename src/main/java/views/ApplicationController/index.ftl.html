@@ -3,85 +3,85 @@
 
 
 <main>
-<div class="game_container main_border">
-    <div class="table_container">
-<table id="opponent" class="battleGrid">
-</table>
-<p></p>
-<table id="player" class="battleGrid">
-</table>
-</div>
+    <div class="game_container">
+        <section class="table_container">
+            <table id="opponent" class="battleGrid">
+            </table>
+            <p></p>
+            <table id="player" class="battleGrid">
+            </table>
+        </section>
 
 
-<!-- Example for stats -->
-    <article class="stat_container">
-        <div class="stats_only">
-         <div class="stats_with_head">
-        <h3 class="stat_name opfor">
-            REDFOR
-        </h3>
+        <!-- Sidebar ----->
+        <section id="sidebar">
+            <div class="stat-container">
+                <div class="stats_with_head">
+                    <h3 class="stat_name opfor">
+                        REDFOR
+                    </h3>
 
-        <div class="inner_stat_container">
-        <div class="stat_title">
-            <p class="stat_text">
-                SHIPS
-            </p>
-        </div>
+                    <div class="inner_stat_container">
+                        <div class="stat_title">
+                            <p class="stat_text">
+                                SHIPS
+                            </p>
+                        </div>
 
-        <div class="stat_response">
-            <p class="stat_text">
-                5
-            </p>
-        </div>
-        </div>
-         </div>
+                        <div class="stat_response">
+                            <p class="stat_text">
+                                5
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="stats_with_head">
-        <h3 class="stat_name blufor">
-            BLUFOR
-        </h3>
+                <div class="stats_with_head">
+                    <h3 class="stat_name blufor">
+                        BLUFOR
+                    </h3>
 
-        <div class="inner_stat_container">
-        <div class="stat_title">
-            <p class="stat_text">
-                SHIPS
-            </p>
-        </div>
+                    <div class="inner_stat_container">
+                        <div class="stat_title">
+                            <p class="stat_text">
+                                SHIPS
+                            </p>
+                        </div>
 
-        <div class="stat_response">
-            <p class="stat_text">
-                5
-            </p>
-        </div>
-        </div>
-        </div>
-        </div>
+                        <div class="stat_response">
+                            <p class="stat_text">
+                                5
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <ul class="interaction_container">
-            <li><button class="hidden" id="fire_button">X</button></li>
-            <li><button id="add_ship">+</button></li>
-        </ul>
-    </article>
+            <div class="interaction_container">
+                <li><button class="hidden" id="fire_button">X</button></li>
+                <li><button id="add_ship">+</button></li>
+            </div>
 
+        </section>
+    </div>
+</main>
 
-    <!--The buttons will all be hidden until you make it popup using the java script-->
-<ul class="button_container hidden">
-    <div class="modal_background hidden">
-        <div class ="modal_title">
-            <h4 class="modal_title">SHIPS</h4>
-            <button id="close">X</button>
+<!--The buttons will all be hidden until you make it popup using the java script-->
+<div id="modal-backdrop" class="hidden"></div>
+<div id="modal" class="hidden">
+    <div id="modal-dialog">
+        <div id="modal-title">
+            <h4>SHIPS</h4>
+            <button type="button" id="close-button">&times;</button>
         </div>
         <div class="actual_buttons">
-    <li><button class ="ship_button" id="place_minesweeper">◻◻</button></li>
-    <li><button class ="ship_button" id="place_destroyer">◻◻◻</button></li>
-    <li><button class ="ship_button" id="place_battleship">◻◻◻◻</button></li>
-    <li><input type="checkbox" id="is_vertical">Vertical</input></li>
+            <li><button class ="ship_button" id="place_minesweeper">◻◻</button></li>
+            <li><button class ="ship_button" id="place_destroyer">◻◻◻</button></li>
+            <li><button class ="ship_button" id="place_battleship">◻◻◻◻</button></li>
+            <li><input type="checkbox" id="is_vertical">Vertical</input></li>
         </div>
     </div>
-</ul>
 </div>
-</div>
-</main>
 
 
 <script type="text/javascript" src="/assets/game.js"></script>

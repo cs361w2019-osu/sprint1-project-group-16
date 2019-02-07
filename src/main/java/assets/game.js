@@ -1,8 +1,10 @@
-var isSetup = true;
-var placedShips = 0;
-var game;
-var shipType;
-var vertical;
+var isSetup = true,
+    placedShips = 0,
+    game,
+    shipType,
+    vertical,
+    backdrop = document.querySelector('#modal-backdrop'),
+    modal = document.querySelector("#modal");
 
 function makeGrid(table, isPlayer) {
     for (i=0; i<10; i++) {
@@ -139,6 +141,10 @@ function initGame() {
         shipType = "BATTLESHIP";
        registerCellListener(place(4));
     });
+    document.querySelector("#add_ship").addEventListener("click", (event) => {
+        backdrop.classList.toggle('hidden');
+        modal.classList.toggle('hidden');
+    })
     sendXhr("GET", "/game", {}, function(data) {
         game = data;
     });
