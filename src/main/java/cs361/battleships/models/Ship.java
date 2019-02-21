@@ -15,6 +15,7 @@ public class Ship {
 	@JsonProperty private String kind;
 	@JsonProperty private List<Square> occupiedSquares;
 	@JsonProperty private int size;
+	@JsonProperty private boolean hasCaptainsQuarters;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
@@ -34,6 +35,7 @@ public class Ship {
 				size = 4;
 				break;
 		}
+		this.hasCaptainsQuarters = false;
 	}
 
 	public List<Square> getOccupiedSquares() {
@@ -43,9 +45,22 @@ public class Ship {
 	public void place(char col, int row, boolean isVertical) {
 		for (int i=0; i<size; i++) {
 			if (isVertical) {
-				occupiedSquares.add(new Square(row+i, col));
-			} else {
-				occupiedSquares.add(new Square(row, (char) (col + i)));
+				if(this.hasCaptainsQuarters){
+					occupiedSquares.add(new Square(row+i, col));
+				}
+				else{
+					occupiedSquares.add(new captainQuarters(row+i, col));
+					hasCaptainsQuarters = true;
+				}
+			}
+			else {
+				if(this.hasCaptainsQuarters){
+					occupiedSquares.add(new Square(row, (char) (col + i)));
+				}
+				else {
+					occupiedSquares.add(new captainQuarters(row, (char) (col + i)));
+					hasCaptainsQuarters = true;
+				}
 			}
 		}
 	}
