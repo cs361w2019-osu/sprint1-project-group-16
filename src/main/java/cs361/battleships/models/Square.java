@@ -58,15 +58,3 @@ public class Square {
 		return "(" + row + ", " + column + ')';
 	}
 }
-
-public class captainQuarters extends Square {
-
-	public captainQuarters(int row, char column) {
-		super(row, column);
-	}
-
-}
-
-
-
-}

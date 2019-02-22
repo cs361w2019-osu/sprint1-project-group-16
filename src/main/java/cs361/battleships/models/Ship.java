@@ -49,7 +49,7 @@ public class Ship {
 					occupiedSquares.add(new Square(row+i, col));
 				}
 				else{
-					occupiedSquares.add(new captainQuarters(row+i, col));
+					occupiedSquares.add(new CaptainsQuarters(row+i, col));
 					hasCaptainsQuarters = true;
 				}
 			}
@@ -58,7 +58,7 @@ public class Ship {
 					occupiedSquares.add(new Square(row, (char) (col + i)));
 				}
 				else {
-					occupiedSquares.add(new captainQuarters(row, (char) (col + i)));
+					occupiedSquares.add(new CaptainsQuarters(row, (char) (col + i)));
 					hasCaptainsQuarters = true;
 				}
 			}
