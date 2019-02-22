@@ -48,6 +48,8 @@ public class Ship {
 				occupiedSquares.add(new Square(row, (char) (col + i)));
 			}
 		}
+
+		occupiedSquares.get(size-2).setCQ(true);
 	}
 
 	public boolean overlaps(Ship other) {
