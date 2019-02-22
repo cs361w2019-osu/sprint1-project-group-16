@@ -38,6 +38,7 @@ public class Board {
 			return false;
 		}
 		ships.add(placedShip);
+		placedShip.hasCQ();
 		return true;
 	}
 

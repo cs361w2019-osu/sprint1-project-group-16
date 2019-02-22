@@ -95,7 +95,14 @@ public class Ship {
 		List<Square> sqrs;
 		sqrs = new ArrayList<>();
 		sqrs = getOccupiedSquares();
-		return false
+
+		for (Square s: sqrs){
+			if (s.getCQ()){
+				System.out.format("%s has captains quarters", this.getKind());
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@JsonIgnore

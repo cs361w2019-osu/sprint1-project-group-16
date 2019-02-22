@@ -168,7 +168,18 @@ public class ShipTest {
     @Test
     public void mineSweepHasCQ() {
         Ship minesweeper1 = new Ship("MINESWEEPER");
-        assertFalse(minesweeper1.hasCQ());
+        assertTrue(minesweeper1.hasCQ());
+    }
 
+    @Test
+    public void destroyerHasCQ() {
+        Ship minesweeper1 = new Ship("DESTROYER");
+        assertTrue(minesweeper1.hasCQ());
+    }
+
+    @Test
+    public void battleshipHasCQ() {
+        Ship minesweeper1 = new Ship("BATTLESHIP");
+        assertTrue(minesweeper1.hasCQ());
     }
 }
