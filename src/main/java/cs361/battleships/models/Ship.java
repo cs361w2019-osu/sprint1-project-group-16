@@ -90,6 +90,14 @@ public class Ship {
 		return result;
 	}
 
+	// used for tests
+	public boolean hasCQ(){
+		List<Square> sqrs;
+		sqrs = new ArrayList<>();
+		sqrs = getOccupiedSquares();
+		return false
+	}
+
 	@JsonIgnore
 	public boolean isSunk() {
 		return getOccupiedSquares().stream().allMatch(s -> s.isHit());
