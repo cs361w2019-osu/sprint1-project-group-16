@@ -17,6 +17,12 @@ public enum AtackStatus {
 	 */
 	SUNK,
 
+
+	/*
+	*	The result if an attack sinks a ship by hitting captains quarters
+	 */
+	CQSUNK,
+
 	/**
 	 * The results if an attack results in the defeat of the opponent (a
 	 * surrender).

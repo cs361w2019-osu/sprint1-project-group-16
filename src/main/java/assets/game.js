@@ -59,22 +59,40 @@ function makeGrid(table, isPlayer) {
 
 }
 
-function markHits(board, elementId, surrenderText) {
+function markHits(board, elementId, surrenderText){
+
     board.attacks.forEach((attack) => {
         let className;
+
         if (attack.result === "MISS")
             className = "miss";
-        else if (attack.result === "HIT")
+
+        else if (attack.result === "HIT"){
             className = "hit";
-        else if (attack.result === "SUNK")
+        }
+        else if (attack.result === "CQSUNK"){
+            className = "hit";
+            alert("You hit the captains quarters!")
+        }
+        else if (attack.result === "SUNK"){
             className = "hit"
-        else if (attack.result === "SURRENDER") {
+        }
+        else if (attack.result === "SURRENDER"){
             alert(surrenderText);
             location.reload();
         }
-        document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
+
+    document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
+  });
+}
 
 
+function markCQHits(board, elementId, surrenderText){
+    board.attacks.forEach((attack) => {
+            if (attack.result === "CQSUNK"){
+                alert(surrenderText);
+
+            }
     });
 }
 
@@ -90,8 +108,10 @@ function redrawGrid() {
     game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
         document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
     }));
+
     markHits(game.opponentsBoard, "opponent", "You won the game");
     markHits(game.playersBoard, "player", "You lost the game");
+    markCQHits(game.playersBoard, "opponent", "You hit the Captains Quarters");
 }
 
 var oldListener;
@@ -148,8 +168,8 @@ function cellClick() {
 }
 
 function sendXhr(method, url, data, handler) {
-    console.log("Player Stats", playerStats);
-    console.log('Opponent Stats', oppStats);
+//    console.log("Player Stats", playerStats);
+//    console.log('Opponent Stats', oppStats);
     var req = new XMLHttpRequest();
     req.addEventListener("load", function(event) {
         if (req.status != 200) {

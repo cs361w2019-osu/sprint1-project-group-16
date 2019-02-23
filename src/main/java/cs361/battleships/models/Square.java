@@ -11,6 +11,7 @@ public class Square {
 	@JsonProperty private boolean hit = false;
 	private int cqHits;
 	private boolean isCQ;
+	private int maxHits;
 
 	public Square() {
 	}
@@ -46,6 +47,14 @@ public class Square {
 		return row;
 	}
 
+	public int getMaxHits(){
+		return maxHits;
+	}
+
+	public void setMaxHits(int hits){
+		maxHits = hits;
+	}
+
 
 	@Override
 	public boolean equals(Object other) {
@@ -70,7 +79,9 @@ public class Square {
 	}
 
 	public void hit() {
+
 		hit = true;
+
 	}
 
 	@Override
