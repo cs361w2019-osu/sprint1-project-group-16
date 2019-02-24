@@ -10,6 +10,8 @@ public class Board {
 
 	@JsonProperty private List<Ship> ships;
 	@JsonProperty private List<Result> attacks;
+	@JsonProperty private List<Result> sonars;
+
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -17,6 +19,7 @@ public class Board {
 	public Board() {
 		ships = new ArrayList<>();
 		attacks = new ArrayList<>();
+		sonars = new ArrayList<>();
 	}
 
 	/*
@@ -44,6 +47,35 @@ public class Board {
 		ships.add(placedShip);
 
 		return true;
+	}
+
+	public Result sonarPing(int x, char y){
+
+		Result sonarResult = sonarPing(new Square(x, y));
+		sonars.add(sonarResult);
+		return sonarResult;
+	}
+
+//Should only see if there is a ship there or not, it will go through all of the squares in a higher class
+	private Result sonarPing(Square s){
+		if (sonars.stream().anyMatch(r -> r.getLocation().equals(s))) {
+			var sonarResult = new Result(s);
+			sonarResult.setSonarStatus(SonarStatus.INVALID);
+			return sonarResult;
+		}
+		var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(s)).collect(Collectors.toList());
+
+		if (shipsAtLocation.size() == 0) {
+			var sonarResult = new Result(s);
+			return sonarResult;
+		}
+
+		var scanShip = shipsAtLocation.get(0);
+		var sonarResult = scanShip.sonar(s.getRow(), s.getColumn());
+		sonarResult.getSonarResult();
+
+		//In this case the sonarResult should show that the square has a ship in it
+		return sonarResult;
 	}
 
 	/*

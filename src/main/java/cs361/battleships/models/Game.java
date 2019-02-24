@@ -50,6 +50,54 @@ public class Game {
         return true;
     }
 
+    public boolean sonarPing(int x, char y){
+        Result playerPing = opponentsBoard.sonarPing(x, y);
+            if(playerPing.getSonarResult() == SonarStatus.INVALID) {
+                return false;
+            }
+            for(int i = x - 3; x < x + 4; x++ ){
+                if(i >= 0 && i <= 9) {
+                    playerPing = opponentsBoard.sonarPing(i, y);
+                }
+            }
+
+            int j = y;
+             j = j + 3;
+            char ymax = (char) j;
+            j = j - 6;
+            char ymin = (char) j;
+            for(char k = ymin; j < ymax; j++){
+                if(k >= 'A' && k <= 'J'){
+                    playerPing = opponentsBoard.sonarPing(x, k);
+                }
+            }
+
+            //The following block will not accept arguments such as y+1, y-1.... will only accept y, which is why its done this way
+            if(x+1 <= 9 && y+1 <= 'J'){
+                y++;
+                playerPing = opponentsBoard.sonarPing(x+1, y);
+                y--;
+            }
+            if(x+1 <= 9 && y-1 <= 'J'){
+                y--;
+                playerPing = opponentsBoard.sonarPing(x+1, y);
+                y++;
+        }
+        if(x-1 >= 0 && y+1 <= 'J'){
+            y++;
+            playerPing = opponentsBoard.sonarPing(x-1, y);
+            y--;
+        }
+        if(x-1 >= 9 && y-1 >= 'A'){
+            y--;
+            playerPing = opponentsBoard.sonarPing(x-1, y);
+            y++;
+        }
+
+        return true;
+
+    }
+
     private char randCol() {
         int random = new Random().nextInt(10);
         return (char) ('A' + random);

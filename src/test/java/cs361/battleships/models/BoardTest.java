@@ -83,4 +83,23 @@ public class BoardTest {
         assertFalse(board.placeShip(new Ship(""), 8, 'A', false));
 
     }
+    @Test
+    public void checkSonarPulse() {
+        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true);
+        board.placeShip(new Ship("BATTLESHIP"), 5, 'D', true);
+        board.placeShip(new Ship("DESTROYER"), 6, 'A', false);
+
+        Result r1 = board.sonarPing(1, 'A');
+        Result r2 = board.sonarPing(5, 'D');
+        Result r3 = board.sonarPing(9, 'Z');
+
+        assertTrue(r1.getSonarResult() == SonarStatus.FULL);
+       assertTrue(r2.getSonarResult() == SonarStatus.FULL);
+       assertFalse(r3.getSonarResult() == SonarStatus.FULL);
+     assertTrue(r3.getSonarResult() == SonarStatus.EMPTY);
+
+
+
+
+    }
 }

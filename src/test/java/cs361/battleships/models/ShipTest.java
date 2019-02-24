@@ -182,4 +182,15 @@ public class ShipTest {
         Ship minesweeper1 = new Ship("BATTLESHIP");
         assertTrue(minesweeper1.hasCQ());
     }
+
+    @Test
+    public void SonarCheck() {
+        Ship minesweeper1 = new Ship("DESTROYER");
+        minesweeper1.place('b', 1, false);
+        var Result = minesweeper1.sonar(1,'b');
+        var Result2 = minesweeper1.attack(4, 'Z');
+
+        assertTrue((Result.getSonarResult() == SonarStatus.FULL));
+        assertTrue((Result2.getSonarResult() == SonarStatus.INVALID) || (Result2.getSonarResult() == SonarStatus.EMPTY));
+    }
 }
