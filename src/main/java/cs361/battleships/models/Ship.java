@@ -40,6 +40,7 @@ public class Ship {
 		return occupiedSquares;
 	}
 
+
 	public void place(char col, int row, boolean isVertical) {
 		for (int i=0; i<size; i++) {
 			if (isVertical) {
@@ -48,6 +49,16 @@ public class Ship {
 				occupiedSquares.add(new Square(row, (char) (col + i)));
 			}
 		}
+
+		occupiedSquares.get(size-2).setCQ(true);
+		occupiedSquares.get(size-2).setMaxHits(1);
+
+//		if(this.getKind().equals("MINESWEEPER")){
+//			occupiedSquares.get(size-2).setMaxHits(1);
+//		}
+//		else if(this.getKind().equals("BATTLESHIP") || this.getKind().equals("DESTROYER")){
+//			occupiedSquares.get(size-2).setMaxHits(2);
+//		}
 	}
 
 	public boolean overlaps(Ship other) {
@@ -68,16 +79,32 @@ public class Ship {
 	public Result attack(int x, char y) {
 		var attackedLocation = new Square(x, y);
 		var square = getOccupiedSquares().stream().filter(s -> s.equals(attackedLocation)).findFirst();
+
 		if (!square.isPresent()) {
 			return new Result(attackedLocation);
 		}
+
 		var attackedSquare = square.get();
 		if (attackedSquare.isHit()) {
 			var result = new Result(attackedLocation);
 			result.setResult(AtackStatus.INVALID);
 			return result;
 		}
+
+		if (attackedSquare.getCQ()){
+			System.out.format("captains quarters hit");
+			attackedSquare.setCQHits(attackedSquare.getCQHits()+1);
+			if(attackedSquare.getCQHits() >= attackedSquare.getMaxHits()){
+				System.out.format("ship sunk due to captians quarters");
+				var result = new Result(attackedLocation);
+				result.setShip(this);
+				result.setResult(AtackStatus.CQSUNK);
+				return result;
+			}
+		}
+
 		attackedSquare.hit();
+
 		var result = new Result(attackedLocation);
 		result.setShip(this);
 		if (isSunk()) {
@@ -86,6 +113,21 @@ public class Ship {
 			result.setResult(AtackStatus.HIT);
 		}
 		return result;
+	}
+
+	// used for tests
+	public boolean hasCQ(){
+		List<Square> sqrs;
+		sqrs = new ArrayList<>();
+		sqrs = getOccupiedSquares();
+
+		for (Square s: sqrs){
+			if (s.getCQ()){
+				System.out.format("%s has captains quarters", this.getKind());
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@JsonIgnore

@@ -9,6 +9,9 @@ public class Square {
 	@JsonProperty private int row;
 	@JsonProperty private char column;
 	@JsonProperty private boolean hit = false;
+	private int cqHits;
+	private boolean isCQ;
+	private int maxHits;
 
 	public Square() {
 	}
@@ -16,6 +19,24 @@ public class Square {
 	public Square(int row, char column) {
 		this.row = row;
 		this.column = column;
+		this.isCQ = false;
+		this.cqHits = 0;
+	}
+
+	public boolean getCQ(){
+		return this.isCQ;
+	}
+
+	public void setCQ(boolean bool){
+		this.isCQ = bool;
+	}
+
+	public int getCQHits(){
+		return this.cqHits;
+	}
+
+	public void setCQHits(int hits){
+		this.cqHits = hits;
 	}
 
 	public char getColumn() {
@@ -24,6 +45,14 @@ public class Square {
 
 	public int getRow() {
 		return row;
+	}
+
+	public int getMaxHits(){
+		return maxHits;
+	}
+
+	public void setMaxHits(int hits){
+		maxHits = hits;
 	}
 
 
@@ -50,7 +79,9 @@ public class Square {
 	}
 
 	public void hit() {
+
 		hit = true;
+
 	}
 
 	@Override

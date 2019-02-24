@@ -26,11 +26,15 @@ public class Board {
 		if (ships.size() >= 3) {
 			return false;
 		}
+
 		if (ships.stream().anyMatch(s -> s.getKind().equals(ship.getKind()))) {
 			return false;
 		}
-		final var placedShip = new Ship(ship.getKind());
+
+		ShipShop ss = new ShipShop();
+		Ship placedShip = ss.makeShip(ship.getKind());
 		placedShip.place(y, x, isVertical);
+//
 		if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
 			return false;
 		}
@@ -38,6 +42,7 @@ public class Board {
 			return false;
 		}
 		ships.add(placedShip);
+
 		return true;
 	}
 
@@ -45,6 +50,7 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Result attack(int x, char y) {
+
 		Result attackResult = attack(new Square(x, y));
 		attacks.add(attackResult);
 		return attackResult;
@@ -57,10 +63,19 @@ public class Board {
 			return attackResult;
 		}
 		var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(s)).collect(Collectors.toList());
+		// send attack result = miss , default value of Result() constructor
+//		System.out.format("hasCQ: %b", s.getCQ());
+
+
 		if (shipsAtLocation.size() == 0) {
 			var attackResult = new Result(s);
 			return attackResult;
 		}
+
+		var tmpShip = shipsAtLocation.get(0);
+		System.out.format("ship type hit: %s", tmpShip.getKind());
+
+
 		var hitShip = shipsAtLocation.get(0);
 		var attackResult = hitShip.attack(s.getRow(), s.getColumn());
 		if (attackResult.getResult() == AtackStatus.SUNK) {

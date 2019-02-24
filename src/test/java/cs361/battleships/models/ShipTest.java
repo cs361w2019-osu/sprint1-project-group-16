@@ -164,4 +164,22 @@ public class ShipTest {
         assertTrue(minesweeper1.equals(minesweeper2));
         assertEquals(minesweeper1.hashCode(), minesweeper2.hashCode());
     }
+
+    @Test
+    public void mineSweepHasCQ() {
+        Ship minesweeper1 = new Ship("MINESWEEPER");
+        assertTrue(minesweeper1.hasCQ());
+    }
+
+    @Test
+    public void destroyerHasCQ() {
+        Ship minesweeper1 = new Ship("DESTROYER");
+        assertTrue(minesweeper1.hasCQ());
+    }
+
+    @Test
+    public void battleshipHasCQ() {
+        Ship minesweeper1 = new Ship("BATTLESHIP");
+        assertTrue(minesweeper1.hasCQ());
+    }
 }
