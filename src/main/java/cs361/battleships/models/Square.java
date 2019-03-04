@@ -9,6 +9,7 @@ public class Square {
 	@JsonProperty private int row;
 	@JsonProperty private char column;
 	@JsonProperty private boolean hit = false;
+	@JsonProperty private boolean revealed = false;
 	private int cqHits;
 	private boolean isCQ;
 	private int maxHits;
@@ -82,6 +83,12 @@ public class Square {
 
 		hit = true;
 
+	}
+
+	public boolean isRevealed(){return revealed;}
+
+	public void revealed(){
+		revealed = true;
 	}
 
 	@Override

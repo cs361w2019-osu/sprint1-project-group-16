@@ -47,4 +47,17 @@ public class SquareTest {
         assertFalse(square1.equals(square2));
         assertNotEquals(square1.hashCode(), square2.hashCode());
     }
+
+    @Test
+    public void checkSonarReveal() {
+        //Tests to see if the reveal functions work
+        Square square1 = new Square(1, 'A');
+        Square square2 = new Square(2, 'A');
+        square2.revealed();
+
+        assertFalse(square1.isRevealed());
+        assertTrue(square2.isRevealed());
+    }
+
+
 }

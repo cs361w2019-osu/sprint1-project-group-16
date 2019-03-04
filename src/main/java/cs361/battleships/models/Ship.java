@@ -76,6 +76,34 @@ public class Ship {
 		return kind;
 	}
 
+	//Same as attack method, but does things for sonar instead, basically if there is a ship there, it will return there is a ship there, the squares start out empty for sonar
+	public Result sonar(int x, char y){
+
+		var sonarLocation = new Square(x ,y);
+		var square = getOccupiedSquares().stream().filter(s -> s.equals(sonarLocation)).findFirst();
+		if (!square.isPresent()) {
+			return new Result(sonarLocation);
+		}
+
+		var sonarSquare = square.get();
+		//IF true, it is already revealed, if this doesn't work, just going to have to code to ignore it
+		/*
+		if (sonarSquare.isRevealed()) {
+			var result = new Result(sonarSquare);
+			result.setResult(SonarStatus.INVALID);
+			return result;
+		}
+		*/
+
+		sonarSquare.revealed();
+
+		var result = new Result(sonarSquare);
+		result.setSonarStatus(SonarStatus.FULL);
+
+		return result;
+
+	}
+
 	public Result attack(int x, char y) {
 		var attackedLocation = new Square(x, y);
 		var square = getOccupiedSquares().stream().filter(s -> s.equals(attackedLocation)).findFirst();
