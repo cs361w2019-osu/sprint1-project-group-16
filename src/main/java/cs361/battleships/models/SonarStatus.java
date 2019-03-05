@@ -5,12 +5,12 @@ public enum SonarStatus {
 	/**
 	 * The result if an attack results if there isn't a ship in the square
 	 */
-	EMPTY,
+	SHIP,
 
 	/**
 	 * The result if an attack results if there is a ship in the square.
 	 */
-	FULL,
+	EMPTY,
 
 	/**
 	 * The result if the coordinates given are invalid.

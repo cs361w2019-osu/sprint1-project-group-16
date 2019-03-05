@@ -8,16 +8,14 @@ public class Result {
 	@JsonProperty private Square location;
 	@JsonProperty private Ship ship;
 
-	@JsonProperty private SonarStatus sonStat;
-
 	@SuppressWarnings("unused")
 	public Result() {
 	}
 
-	public Result(Square location) {
-		result = AtackStatus.MISS;
-		sonStat = SonarStatus.EMPTY;
+	public Result(Square location, Ship ship, AtackStatus result) {
+		this.result = result;
 		this.location = location;
+		this.ship = ship;
 	}
 
 	public AtackStatus getResult() {
@@ -27,17 +25,6 @@ public class Result {
 	public void setResult(AtackStatus result) {
 		this.result = result;
 	}
-
-
-	public SonarStatus getSonarResult() {
-		return sonStat;
-	}
-
-	public void setSonarStatus(SonarStatus sonStat) {
-		this.sonStat = sonStat;
-	}
-
-
 
 	public Ship getShip() {
 		return ship;

@@ -11,7 +11,8 @@ var isSetup = true,
     playerGrid,
     opponentGrid,
     oppStats = document.querySelectorAll('#opp-stats [data-title]');
-    playerStats = document.querySelectorAll('#player-stats [data-title]');
+    playerStats = document.querySelectorAll('#player-stats [data-title]'),
+    sunkShipsList = [];
 
     oppStats[1].innerText = 9;
     playerStats[1].innerText = 9;
@@ -54,28 +55,30 @@ function makeGrid(table, isPlayer) {
         }
         table.appendChild(row);
     }
-    if (isPlayer) playerGrid = table;
-    else opponentGrid = table;
+//    if (isPlayer) playerGrid = table;
+//    else opponentGrid = table;
 
 }
 
 function markHits(board, elementId, surrenderText){
 
+    let shipsSunk = 0;
     board.attacks.forEach((attack) => {
         let className;
-
         if (attack.result === "MISS")
             className = "miss";
 
         else if (attack.result === "HIT"){
             className = "hit";
         }
-        else if (attack.result === "CQSUNK"){
-            className = "hit";
-            alert("You hit the captains quarters!")
+        else if(attack.result === "CQHIT"){
+            className = "cqHit";
         }
         else if (attack.result === "SUNK"){
-            className = "hit"
+            className = "hit";
+            if (elementId === "opponent" && !inSunkShipsList(attack.ship.kind))
+                sunkShipsList.push(attack.ship);
+            shipsSunk++;
         }
         else if (attack.result === "SURRENDER"){
             alert(surrenderText);
@@ -84,6 +87,15 @@ function markHits(board, elementId, surrenderText){
 
     document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
   });
+}
+
+function inSunkShipsList(kind)
+{
+    let found = false;
+    sunkShipsList.forEach((ship) => {
+        if (ship.kind === kind) found = true;
+    });
+    return found;
 }
 
 
@@ -111,7 +123,7 @@ function redrawGrid() {
 
     markHits(game.opponentsBoard, "opponent", "You won the game");
     markHits(game.playersBoard, "player", "You lost the game");
-    markCQHits(game.playersBoard, "opponent", "You hit the Captains Quarters");
+//    markCQHits(game.playersBoard, "opponent", "You hit the Captains Quarters");
 }
 
 var oldListener;
@@ -160,6 +172,7 @@ function cellClick() {
         sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
             game = data;
             redrawGrid();
+            console.log(game);
         })
     }
     else {
@@ -173,6 +186,7 @@ function sendXhr(method, url, data, handler) {
     var req = new XMLHttpRequest();
     req.addEventListener("load", function(event) {
         if (req.status != 200) {
+            console.log(req);
             alert("Cannot complete the action!!!!!!!");
             return;
         }
@@ -182,6 +196,7 @@ function sendXhr(method, url, data, handler) {
     });
     req.open(method, url);
     req.setRequestHeader("Content-Type", "application/json");
+//    console.table(req);
     req.send(JSON.stringify(data));
 }
 

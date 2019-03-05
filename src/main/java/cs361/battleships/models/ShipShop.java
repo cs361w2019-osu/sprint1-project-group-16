@@ -2,22 +2,20 @@ package cs361.battleships.models;
 
 public class ShipShop {
 
-    private Ship newShip;
+//    private Ship newShip;
 
     public ShipShop(){}
 
     public Ship makeShip(String kind){
-        if(kind.equals("MINESWEEPER")){
-            newShip = new Minesweeper();
+        switch (kind) {
+            case "MINESWEEPER":
+                return new Minesweeper();
+            case "DESTROYER":
+                return new Destroyer();
+            case "BATTLESHIP":
+                return new Battleship();
+            default:
+                return null;
         }
-
-        else if(kind.equals("DESTROYER")){
-            newShip = new Destroyer();
-        }
-
-        else if(kind.equals("BATTLESHIP")){
-            newShip = new Battleship();
-        }
-        return newShip;
     }
 }

@@ -10,9 +10,8 @@ public class Square {
 	@JsonProperty private char column;
 	@JsonProperty private boolean hit = false;
 	@JsonProperty private boolean revealed = false;
-	private int cqHits;
-	private boolean isCQ;
-	private int maxHits;
+	@JsonProperty private int hits;
+	@JsonProperty private boolean isCQ;
 
 	public Square() {
 	}
@@ -21,8 +20,16 @@ public class Square {
 		this.row = row;
 		this.column = column;
 		this.isCQ = false;
-		this.cqHits = 0;
+		this.hits = 0;
 	}
+
+	public Square(Square squareCopy) {
+		this.row = squareCopy.row;
+		this.column = squareCopy.column;
+		this.isCQ = squareCopy.isCQ;
+		this.hits = squareCopy.hits;
+	}
+
 
 	public boolean getCQ(){
 		return this.isCQ;
@@ -32,12 +39,12 @@ public class Square {
 		this.isCQ = bool;
 	}
 
-	public int getCQHits(){
-		return this.cqHits;
+	public int getHits(){
+		return this.hits;
 	}
 
-	public void setCQHits(int hits){
-		this.cqHits = hits;
+	public void setHits(int hits){
+		this.hits = hits;
 	}
 
 	public char getColumn() {
@@ -46,14 +53,6 @@ public class Square {
 
 	public int getRow() {
 		return row;
-	}
-
-	public int getMaxHits(){
-		return maxHits;
-	}
-
-	public void setMaxHits(int hits){
-		maxHits = hits;
 	}
 
 
