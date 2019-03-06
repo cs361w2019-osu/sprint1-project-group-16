@@ -99,4 +99,17 @@ public class Game {
     private boolean randVertical() {
         return new Random().nextBoolean();
     }
+
+
+//    used for GameTest.java
+    public Board getBoard(String which){
+        switch(which){
+            case "player":
+                return playersBoard;
+            case "opponent":
+                return opponentsBoard;
+            default:
+                return null;
+        }
+    }
 }

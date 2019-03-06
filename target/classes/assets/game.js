@@ -97,7 +97,7 @@ function markHits(board, elementId, surrenderText){
       if (elementId === "opponent")
       {
           let sonarsUsed = 0;
-          board.sonarAmmo.forEach((sonar) => {
+          board.sonarTarget.forEach((sonar) => {
               sonarsUsed++;
           });
 

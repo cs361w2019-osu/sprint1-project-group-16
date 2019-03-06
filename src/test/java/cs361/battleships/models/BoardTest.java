@@ -38,6 +38,7 @@ public class BoardTest {
         Ship minesweeper = new Minesweeper();
         board.placeShip(minesweeper, 1, 'A', true);
         minesweeper = board.getShips().get(0);
+        minesweeper.setCapQrts(false);
         Result result = board.attack(1, 'A');
         assertEquals(AtackStatus.HIT, result.getResult());
         assertEquals(minesweeper, result.getShip());
@@ -63,6 +64,7 @@ public class BoardTest {
     @Test
     public void testSurrender() {
         board.placeShip(new Minesweeper(), 1, 'A', true);
+        board.getShips().get(0).setCapQrts(false);
         board.attack(1, 'A');
         var result = board.attack(2, 'A');
         assertEquals(AtackStatus.SURRENDER, result.getResult());
@@ -89,8 +91,39 @@ public class BoardTest {
 //        minesweeper.addCapQrts();
         board.placeShip(new Minesweeper(), 1, 'A', true);
         Ship minesweeper = board.getShips().get(0);
-        minesweeper.addCapQrts();
+        minesweeper.setCapQrts(true);
         board.attack(1, 'A');
         assertTrue(minesweeper.isSunk());
+    }
+
+    @Test
+    public void testCantUseMoreThanTwoSonarPing(){
+        board.sonarPing(1, 'A');
+        board.sonarPing(3, 'C');
+        assertFalse(board.sonarPing(5, 'E'));
+    }
+
+    @Test
+    public void testPingFindsShip(){
+        Ship ship = new Battleship();
+        board.placeShip(ship, 5, 'E', true);
+        board.sonarPing(5, 'E');
+        for(SonarResult sr : board.getSonars()){
+            if(sr.getStatus() == SonarStatus.SHIP){
+                assertTrue(ship.isAtLocation(sr.getLocation()));
+            }
+        }
+    }
+
+    @Test
+    public void testPingDoesntFindShip(){
+        boolean foundShip = false;
+        board.sonarPing(5, 'E');
+        for(SonarResult sr : board.getSonars()){
+            if(sr.getStatus() == SonarStatus.SHIP){
+                foundShip = true;
+            }
+        }
+        assertFalse(foundShip);
     }
 }

@@ -12,8 +12,8 @@ public class Board {
 	@JsonProperty private List<Ship> ships;
 	@JsonProperty private List<Result> attacks;
 	@JsonProperty private List<SonarResult> sonars;
-	@JsonProperty private List<SonarResult> sonarAmmo;
-
+	@JsonProperty private List<SonarResult> sonarTarget;
+//	@JsonProperty private int sonarAmmo;
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -22,7 +22,8 @@ public class Board {
 		this.ships = new ArrayList<>();
 		this.attacks = new ArrayList<>();
 		this.sonars = new ArrayList<>();
-		this.sonarAmmo = new ArrayList<>();
+		this.sonarTarget = new ArrayList<>();
+//		this.sonarAmmo = 2;
 	}
 
 	/*
@@ -33,8 +34,8 @@ public class Board {
 			return false;
 		}
 
-		ship.addSquares(y, x, isVertical);
-//
+		ship.addSquares(y, x, isVertical, true);
+
 		if (ships.stream().anyMatch(s -> s.overlaps(ship))) {
 			return false;
 		}
@@ -49,11 +50,10 @@ public class Board {
 	public boolean sonarPing(int row, char column){
 
 		// the player has used up all sonarAmmo
-		if(sonarAmmo.size() == 2){ return false; }
+		if(sonarTarget.size() == 2){ return false; }
 
 		int y = row-1;
 		int x = ((int)column)-65;
-
 
 		// sonarPing is a 5x5 square centered at x,y
 		for(int m = -2; m <= 2; m++){
@@ -77,12 +77,18 @@ public class Board {
 							}
 						}
 					}
+
 					if(!shipFound){
 
 						Square current = new Square(j+1, ((char)(i +65)));
 						result.setLocation(current);
 						result.setStatus(SonarStatus.EMPTY);
 					}
+
+					if( j+1 == row && ((char)i + 65) == column){
+						sonarTarget.add(result);
+					}
+
 					sonars.add(result);
 				}
 			}
@@ -139,5 +145,9 @@ public class Board {
 
 	List<Ship> getShips() {
 		return ships;
+	}
+
+	List<SonarResult> getSonars(){
+		return this.sonars;
 	}
 }

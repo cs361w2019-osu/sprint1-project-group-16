@@ -41,7 +41,7 @@ public abstract class Ship {
 	}
 
 
-	void addSquares(char col, int row, boolean isVertical) {
+	void addSquares(char col, int row, boolean isVertical, boolean addCQ) {
 		for (int i=0; i<size; i++) {
 			if (isVertical) {
 				occupiedSquares.add(new Square(row+i, col));
@@ -49,11 +49,14 @@ public abstract class Ship {
 				occupiedSquares.add(new Square(row, (char) (col + i)));
 			}
 		}
-//		occupiedSquares.get(size-2).setCQ(true);
+		if(addCQ){
+			occupiedSquares.get(size-2).setCQ(true);
+		}
+
 	}
 
-	void addCapQrts(){
-		this.occupiedSquares.get(size-2).setCQ(true);
+	void setCapQrts(boolean cq){
+		this.occupiedSquares.get(size-2).setCQ(cq);
 	}
 
 	boolean overlaps(Ship other) {
