@@ -34,8 +34,18 @@ public class ApplicationController {
 
     public Result attack(Context context, AttackGameAction g) {
         Game game = g.getGame();
-        boolean result = game.attack(g.getActionRow(), g.getActionColumn());
-        if (result) {
+        boolean actionResult = false;
+
+        if(g.getActionType().equals("sonar")){
+            System.out.print("sonar\n");
+            actionResult = game.sonarPing(g.getActionRow(), g.getActionColumn());
+        }
+        else if(g.getActionType().equals("attack")){
+            System.out.print("attack\n");
+            actionResult = game.attack(g.getActionRow(), g.getActionColumn());
+        }
+
+        if (actionResult) {
             return Results.json().render(game);
         } else {
             System.out.format("Bad request");

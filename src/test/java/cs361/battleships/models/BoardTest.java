@@ -18,24 +18,24 @@ public class BoardTest {
 
     @Test
     public void testInvalidPlacement() {
-        assertFalse(board.placeShip(new Ship("MINESWEEPER"), 11, 'C', true));
+        assertFalse(board.placeShip(new Minesweeper(), 11, 'C', true));
     }
 
     @Test
     public void testPlaceMinesweeper() {
-        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true));
+        assertTrue(board.placeShip(new Minesweeper(), 1, 'A', true));
     }
 
     @Test
     public void testAttackEmptySquare() {
-        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true);
+        board.placeShip(new Minesweeper(), 1, 'A', true);
         Result result = board.attack(2, 'E');
         assertEquals(AtackStatus.MISS, result.getResult());
     }
 
     @Test
     public void testAttackShip() {
-        Ship minesweeper = new Ship("MINESWEEPER");
+        Ship minesweeper = new Minesweeper();
         board.placeShip(minesweeper, 1, 'A', true);
         minesweeper = board.getShips().get(0);
         Result result = board.attack(1, 'A');
@@ -45,7 +45,7 @@ public class BoardTest {
 
     @Test
     public void testAttackSameSquareMultipleTimes() {
-        Ship minesweeper = new Ship("MINESWEEPER");
+        Ship minesweeper = new Minesweeper();
         board.placeShip(minesweeper, 1, 'A', true);
         board.attack(1, 'A');
         Result result = board.attack(1, 'A');
@@ -62,7 +62,7 @@ public class BoardTest {
 
     @Test
     public void testSurrender() {
-        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true);
+        board.placeShip(new Minesweeper(), 1, 'A', true);
         board.attack(1, 'A');
         var result = board.attack(2, 'A');
         assertEquals(AtackStatus.SURRENDER, result.getResult());
@@ -70,36 +70,27 @@ public class BoardTest {
 
     @Test
     public void testPlaceMultipleShipsOfSameType() {
-        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true));
-        assertFalse(board.placeShip(new Ship("MINESWEEPER"), 5, 'D', true));
+        assertTrue(board.placeShip(new Minesweeper(), 1, 'A', true));
+        assertFalse(board.placeShip(new Minesweeper(), 5, 'D', true));
 
     }
 
     @Test
     public void testCantPlaceMoreThan3Ships() {
-        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true));
-        assertTrue(board.placeShip(new Ship("BATTLESHIP"), 5, 'D', true));
-        assertTrue(board.placeShip(new Ship("DESTROYER"), 6, 'A', false));
-        assertFalse(board.placeShip(new Ship(""), 8, 'A', false));
+        assertTrue(board.placeShip(new Minesweeper(), 1, 'A', true));
+        assertTrue(board.placeShip(new Battleship(), 5, 'D', true));
+        assertTrue(board.placeShip(new Destroyer(), 6, 'A', false));
+        assertFalse(board.placeShip(new Minesweeper(), 8, 'A', false));
 
     }
+
     @Test
-    public void checkSonarPulse() {
-        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true);
-        board.placeShip(new Ship("BATTLESHIP"), 5, 'D', true);
-        board.placeShip(new Ship("DESTROYER"), 6, 'A', false);
-
-        Result r1 = board.sonarPing(1, 'A');
-        Result r2 = board.sonarPing(5, 'D');
-        Result r3 = board.sonarPing(9, 'Z');
-
-        assertTrue(r1.getSonarResult() == SonarStatus.FULL);
-       assertTrue(r2.getSonarResult() == SonarStatus.FULL);
-       assertFalse(r3.getSonarResult() == SonarStatus.FULL);
-     assertTrue(r3.getSonarResult() == SonarStatus.EMPTY);
-
-
-
-
+    public void testHitCQSink() {
+//        minesweeper.addCapQrts();
+        board.placeShip(new Minesweeper(), 1, 'A', true);
+        Ship minesweeper = board.getShips().get(0);
+        minesweeper.addCapQrts();
+        board.attack(1, 'A');
+        assertTrue(minesweeper.isSunk());
     }
 }

@@ -325,6 +325,14 @@ button{
     overflow: scroll;
 }
 
+td.scanned-SHIP{
+    background-color: gray;
+}
+
+td.scanned-EMPTY{
+    background-color: blue;
+}
+
 td.cqHit:before {
     content: '';
     display: block;

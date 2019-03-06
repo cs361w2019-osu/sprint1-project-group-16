@@ -54,53 +54,38 @@ public class Game {
         return true;
     }
 
-//    public boolean sonarPing(int x, char y){
-//        Result playerPing = opponentsBoard.sonarPing(x, y);
-//            if(playerPing.getSonarResult() == SonarStatus.INVALID) {
-//                return false;
-//            }
-//            for(int i = x - 3; x < x + 4; x++ ){
-//                if(i >= 0 && i <= 9) {
-//                    playerPing = opponentsBoard.sonarPing(i, y);
-//                }
-//            }
-//
-//            int j = y;
-//             j = j + 3;
-//            char ymax = (char) j;
-//            j = j - 6;
-//            char ymin = (char) j;
-//            for(char k = ymin; j < ymax; j++){
-//                if(k >= 'A' && k <= 'J'){
-//                    playerPing = opponentsBoard.sonarPing(x, k);
-//                }
-//            }
-//
-//            //The following block will not accept arguments such as y+1, y-1.... will only accept y, which is why its done this way
-//            if(x+1 <= 9 && y+1 <= 'J'){
-//                y++;
-//                playerPing = opponentsBoard.sonarPing(x+1, y);
-//                y--;
-//            }
-//            if(x+1 <= 9 && y-1 <= 'J'){
-//                y--;
-//                playerPing = opponentsBoard.sonarPing(x+1, y);
-//                y++;
-//        }
-//        if(x-1 >= 0 && y+1 <= 'J'){
-//            y++;
-//            playerPing = opponentsBoard.sonarPing(x-1, y);
-//            y--;
-//        }
-//        if(x-1 >= 9 && y-1 >= 'A'){
-//            y--;
-//            playerPing = opponentsBoard.sonarPing(x-1, y);
-//            y++;
-//        }
-//
-//        return true;
-//
-//    }
+    // perform a sonar action on the opponents board
+    public boolean sonarPing(int x, char y){
+
+        boolean shipSunk = false;
+        for(Ship ship : opponentsBoard.getShips()){
+            if(ship.isSunk()){
+                shipSunk = true;
+            }
+        }
+
+        if(shipSunk){
+            boolean result = opponentsBoard.sonarPing(x, y);
+            if(!result){
+                return false;
+            }
+
+            // continue with normal opponent attack move
+            Result opponentAttackResult;
+            do {
+                // AI does random attacks, so it might attack the same spot twice
+                // let it try until it gets it right
+                opponentAttackResult = playersBoard.attack(randRow(), randCol());
+            } while(opponentAttackResult.getResult() == INVALID);
+
+            return true;
+        }
+        else{
+            return false;
+
+        }
+
+    }
 
     private char randCol() {
         int random = new Random().nextInt(10);

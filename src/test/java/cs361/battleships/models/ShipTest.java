@@ -11,7 +11,7 @@ public class ShipTest {
 
     @Test
     public void testPlaceMinesweeperHorizontaly() {
-        Ship minesweeper = new Ship("MINESWEEPER");
+        Ship minesweeper = new Minesweeper();
         minesweeper.addSquares('A', 1, false);
         List<Square> occupiedSquares = minesweeper.getOccupiedSquares();
         ArrayList<Object> expected = new ArrayList<>();
@@ -22,7 +22,7 @@ public class ShipTest {
 
     @Test
     public void testPlaceMinesweeperVertically() {
-        Ship minesweeper = new Ship("MINESWEEPER");
+        Ship minesweeper = new Minesweeper();
         minesweeper.addSquares('A', 1, true);
         List<Square> occupiedSquares = minesweeper.getOccupiedSquares();
         ArrayList<Object> expected = new ArrayList<>();
@@ -33,7 +33,7 @@ public class ShipTest {
 
     @Test
     public void testPlaceDestroyerHorizontaly() {
-        Ship minesweeper = new Ship("DESTROYER");
+        Ship minesweeper = new Destroyer();
         minesweeper.addSquares('A', 1, false);
         List<Square> occupiedSquares = minesweeper.getOccupiedSquares();
         ArrayList<Object> expected = new ArrayList<>();
@@ -45,7 +45,7 @@ public class ShipTest {
 
     @Test
     public void testPlaceDestroyerVertically() {
-        Ship minesweeper = new Ship("DESTROYER");
+        Ship minesweeper = new Destroyer();
         minesweeper.addSquares('A', 1, true);
         List<Square> occupiedSquares = minesweeper.getOccupiedSquares();
         ArrayList<Object> expected = new ArrayList<>();
@@ -57,7 +57,7 @@ public class ShipTest {
 
     @Test
     public void testPlaceBattleshipHorizontaly() {
-        Ship minesweeper = new Ship("BATTLESHIP");
+        Ship minesweeper = new Battleship();
         minesweeper.addSquares('A', 1, false);
         List<Square> occupiedSquares = minesweeper.getOccupiedSquares();
         ArrayList<Object> expected = new ArrayList<>();
@@ -70,7 +70,7 @@ public class ShipTest {
 
     @Test
     public void testPlaceBattleshipVertically() {
-        Ship minesweeper = new Ship("BATTLESHIP");
+        Ship minesweeper = new Battleship();
         minesweeper.addSquares('A', 1, true);
         List<Square> occupiedSquares = minesweeper.getOccupiedSquares();
         ArrayList<Object> expected = new ArrayList<>();
@@ -83,10 +83,10 @@ public class ShipTest {
 
     @Test
     public void testShipOverlaps() {
-        Ship minesweeper1 = new Ship("MINESWEEPER");
+        Ship minesweeper1 = new Minesweeper();
         minesweeper1.addSquares('A', 1, true);
 
-        Ship minesweeper2 = new Ship("MINESWEEPER");
+        Ship minesweeper2 = new Minesweeper();
         minesweeper2.addSquares('A', 1, true);
 
         assertTrue(minesweeper1.overlaps(minesweeper2));
@@ -94,10 +94,10 @@ public class ShipTest {
 
     @Test
     public void testShipsDontOverlap() {
-        Ship minesweeper1 = new Ship("MINESWEEPER");
+        Ship minesweeper1 = new Minesweeper();
         minesweeper1.addSquares('A', 1, true);
 
-        Ship minesweeper2 = new Ship("MINESWEEPER");
+        Ship minesweeper2 = new Minesweeper();
         minesweeper2.addSquares('C', 2, true);
 
         assertFalse(minesweeper1.overlaps(minesweeper2));
@@ -105,7 +105,7 @@ public class ShipTest {
 
     @Test
     public void testIsAtLocation() {
-        Ship minesweeper = new Ship("BATTLESHIP");
+        Ship minesweeper = new Battleship();
         minesweeper.addSquares('A', 1, true);
 
         assertTrue(minesweeper.isAtLocation(new Square(1, 'A')));
@@ -114,10 +114,10 @@ public class ShipTest {
 
     @Test
     public void testHit() {
-        Ship minesweeper = new Ship("BATTLESHIP");
+        Ship minesweeper = new Battleship();
         minesweeper.addSquares('A', 1, true);
-
-        Result result = minesweeper.attack(1, 'A');
+        List<Square> squares = minesweeper.getOccupiedSquares();
+        Result result = minesweeper.attack(squares.get(0));
         assertEquals(AtackStatus.HIT, result.getResult());
         assertEquals(minesweeper, result.getShip());
         assertEquals(new Square(1, 'A'), result.getLocation());
@@ -125,11 +125,12 @@ public class ShipTest {
 
     @Test
     public void testSink() {
-        Ship minesweeper = new Ship("MINESWEEPER");
+        Ship minesweeper = new Minesweeper();
         minesweeper.addSquares('A', 1, true);
 
-        minesweeper.attack(1, 'A');
-        Result result = minesweeper.attack(2, 'A');
+        List<Square> squares = minesweeper.getOccupiedSquares();
+        minesweeper.attack(squares.get(0));
+        Result result = minesweeper.attack(squares.get(1));
 
         assertEquals(AtackStatus.SUNK, result.getResult());
         assertEquals(minesweeper, result.getShip());
@@ -138,8 +139,8 @@ public class ShipTest {
 
     @Test
     public void testOverlapsBug() {
-        Ship minesweeper = new Ship("MINESWEEPER");
-        Ship destroyer = new Ship("DESTROYER");
+        Ship minesweeper = new Minesweeper();
+        Ship destroyer = new Destroyer();
         minesweeper.addSquares('C', 5, false);
         destroyer.addSquares('C', 5, false);
         assertTrue(minesweeper.overlaps(destroyer));
@@ -147,50 +148,135 @@ public class ShipTest {
 
     @Test
     public void testAttackSameSquareTwice() {
-        Ship minesweeper = new Ship("MINESWEEPER");
+        Ship minesweeper = new Minesweeper();
         minesweeper.addSquares('A', 1, true);
-        var result = minesweeper.attack(1, 'A');
+        List<Square> squares = minesweeper.getOccupiedSquares();
+        var result = minesweeper.attack(squares.get(0));
         assertEquals(AtackStatus.HIT, result.getResult());
-        result = minesweeper.attack(1, 'A');
+        result = minesweeper.attack(squares.get(0));
         assertEquals(AtackStatus.INVALID, result.getResult());
     }
 
     @Test
     public void testEquals() {
-        Ship minesweeper1 = new Ship("MINESWEEPER");
+        Ship minesweeper1 = new Minesweeper();
         minesweeper1.addSquares('A', 1, true);
-        Ship minesweeper2 = new Ship("MINESWEEPER");
+        Ship minesweeper2 = new Minesweeper();
         minesweeper2.addSquares('A', 1, true);
-        assertTrue(minesweeper1.equals(minesweeper2));
+        assertEquals(minesweeper1, minesweeper2);
         assertEquals(minesweeper1.hashCode(), minesweeper2.hashCode());
     }
 
     @Test
-    public void mineSweepHasCQ() {
-        Ship minesweeper1 = new Ship("MINESWEEPER");
+    public void testMinesweeperHasCaptainsQuarters() {
+        Ship minesweeper1 = new Minesweeper();
+        minesweeper1.addSquares('A', 1, true);
+        minesweeper1.addCapQrts();
         assertTrue(minesweeper1.hasCQ());
     }
 
     @Test
-    public void destroyerHasCQ() {
-        Ship minesweeper1 = new Ship("DESTROYER");
+    public void testDestroyerHasCaptainsQuarters() {
+        Ship minesweeper1 = new Destroyer();
+        minesweeper1.addSquares('A', 1, true);
+        minesweeper1.addCapQrts();
         assertTrue(minesweeper1.hasCQ());
     }
 
     @Test
-    public void battleshipHasCQ() {
-        Ship minesweeper1 = new Ship("BATTLESHIP");
+    public void testBattleshipHasCaptainsQuarters() {
+        Ship minesweeper1 = new Battleship();
+        minesweeper1.addSquares('A', 1, true);
+        minesweeper1.addCapQrts();
         assertTrue(minesweeper1.hasCQ());
     }
 
     @Test
-    public void SonarCheck() {
-        Ship minesweeper1 = new Ship("DESTROYER");
-        minesweeper1.addSquares('b', 1, false);
-        var Result = minesweeper1.sonar(1,'b');
-        var Result2 = minesweeper1.attack(4, 'Z');
-
-        assertTrue((Result.getSonarResult() == SonarStatus.FULL));
-        assertTrue((Result2.getSonarResult() == SonarStatus.INVALID) || (Result2.getSonarResult() == SonarStatus.EMPTY));
+    public void testMinesweeperCQHitSink() {
+        Ship minesweeper1 = new Minesweeper();
+        minesweeper1.addSquares('A', 1, true);
+        minesweeper1.addCapQrts();
+        List<Square> squares = minesweeper1.getOccupiedSquares();
+        Square cq = null;
+        for(Square sq : squares){
+            if(sq.isCQ()){
+                cq = new Square(sq);
+                break;
+            }
+        }
+        minesweeper1.attack(cq);
+        assertTrue(minesweeper1.isSunk());
     }
+
+    @Test
+    public void testDestroyerCQHitOnceNotSunk() {
+        Ship minesweeper1 = new Destroyer();
+        minesweeper1.addSquares('A', 1, true);
+        minesweeper1.addCapQrts();
+        List<Square> squares = minesweeper1.getOccupiedSquares();
+        Square cq = null;
+        for(Square sq : squares){
+            if(sq.isCQ()){
+                cq = new Square(sq);
+                break;
+            }
+        }
+        minesweeper1.attack(cq);
+        assertTrue(!minesweeper1.isSunk());
+    }
+
+    @Test
+    public void testDestroyerCQHitSink() {
+        Ship minesweeper1 = new Destroyer();
+        minesweeper1.addSquares('A', 1, true);
+        minesweeper1.addCapQrts();
+        List<Square> squares = minesweeper1.getOccupiedSquares();
+        Square cq = null;
+        for(Square sq : squares){
+            if(sq.isCQ()){
+                cq = new Square(sq);
+                break;
+            }
+        }
+        minesweeper1.attack(cq);
+        minesweeper1.attack(cq);
+        assertTrue(minesweeper1.isSunk());
+    }
+
+    @Test
+    public void testBattleshipCQHitOnceNotSunk() {
+        Ship minesweeper1 = new Battleship();
+        minesweeper1.addSquares('A', 1, true);
+        minesweeper1.addCapQrts();
+        List<Square> squares = minesweeper1.getOccupiedSquares();
+        Square cq = null;
+        for(Square sq : squares){
+            if(sq.isCQ()){
+                cq = new Square(sq);
+                break;
+            }
+        }
+        minesweeper1.attack(cq);
+        assertTrue(!minesweeper1.isSunk());
+    }
+
+    @Test
+    public void testBattleshipCQHitSink() {
+        Ship minesweeper1 = new Battleship();
+        minesweeper1.addSquares('A', 1, true);
+        minesweeper1.addCapQrts();
+        List<Square> squares = minesweeper1.getOccupiedSquares();
+        Square cq = null;
+        for(Square sq : squares){
+            if(sq.isCQ()){
+                cq = new Square(sq);
+                break;
+            }
+        }
+        minesweeper1.attack(cq);
+        minesweeper1.attack(cq);
+        assertTrue(minesweeper1.isSunk());
+    }
+
+
 }

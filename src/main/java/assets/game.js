@@ -12,7 +12,8 @@ var isSetup = true,
     opponentGrid,
     oppStats = document.querySelectorAll('#opp-stats [data-title]');
     playerStats = document.querySelectorAll('#player-stats [data-title]'),
-    sunkShipsList = [];
+    sunkShipsList = [],
+    attackType = "attack";
 
     oppStats[1].innerText = 9;
     playerStats[1].innerText = 9;
@@ -87,6 +88,39 @@ function markHits(board, elementId, surrenderText){
 
     document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
   });
+
+  board.sonars.forEach((sonar) => {
+          console.log(sonar)
+          document.getElementById("opponent").rows[sonar.location.row-1].cells[sonar.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("scanned-" + sonar.status);
+      });
+
+      if (elementId === "opponent")
+      {
+          let sonarsUsed = 0;
+          board.sonarAmmo.forEach((sonar) => {
+              sonarsUsed++;
+          });
+
+          if (shipsSunk == 0)
+          {
+              document.getElementById("place_sonar").parentElement.parentElement.classList.add("hidden");
+//              Array.from(document.querySelectorAll(".moveTypes tr")).forEach((button) => {
+//                  button.classList.add("disabled");
+//              });
+          }
+
+//           decide if can use sonar
+          if (shipsSunk >= 1 && sonarsUsed < 2)
+              document.getElementById("place_sonar").parentElement.parentElement.classList.remove("hidden");
+          else
+              document.getElementById("place_sonar").parentElement.parentElement.classList.add("disabled");
+
+          // decide if can move
+//          if (shipsSunk >= 2 && game.movesUsed < 2)
+//              Array.from(document.querySelectorAll(".moveTypes .buttonGroup")).forEach((button) => { button.classList.remove("disabled"); });
+//          else
+//              Array.from(document.querySelectorAll(".moveTypes .buttonGroup")).forEach((button) => { button.classList.add("disabled"); });
+      }
 }
 
 function inSunkShipsList(kind)
@@ -124,6 +158,14 @@ function redrawGrid() {
     markHits(game.opponentsBoard, "opponent", "You won the game");
     markHits(game.playersBoard, "player", "You lost the game");
 //    markCQHits(game.playersBoard, "opponent", "You hit the Captains Quarters");
+}
+
+function drawSunkShipSquares()
+{
+    game.opponentsBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
+        if (inSunkShipsList(ship.kind))
+            document.getElementById("opponent").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("sink");
+    }));
 }
 
 var oldListener;
@@ -169,9 +211,11 @@ function cellClick() {
         }
     }
     else if (this.parentNode.parentNode.id == 'opponent') {
-        sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
+        sendXhr("POST", "/attack", {game: game, x: row, y: col, type: attackType}, function(data) {
             game = data;
             redrawGrid();
+            attackType = "attack";
+//            drawSunkShipSquares();
             console.log(game);
         })
     }
@@ -282,6 +326,9 @@ function initGame() {
     makeGrid(document.getElementById("player"), true);
     document.querySelector("#add_ship").addEventListener('click', addShipModal);
     document.querySelector('#modal-close-button').addEventListener('click', addShipModal);
+    document.querySelector('#place_sonar').addEventListener('click', (e) =>{
+        attackType = 'sonar';
+    })
     shipButtons.forEach((ship, idx, listobj) => {
         ship.addEventListener('click', handleShipBtn);
     });

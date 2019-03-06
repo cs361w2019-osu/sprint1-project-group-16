@@ -2,8 +2,6 @@ package cs361.battleships.models;
 
 public class ShipShop {
 
-//    private Ship newShip;
-
     public ShipShop(){}
 
     public Ship makeShip(String kind){

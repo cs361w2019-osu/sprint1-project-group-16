@@ -3,7 +3,9 @@ package cs361.battleships.models;
 public class Battleship extends Ship{
 
     public Battleship(){
+
         super("BATTLESHIP");
+        this.size = 4;
     }
 
     @Override
@@ -14,7 +16,7 @@ public class Battleship extends Ship{
             return AtackStatus.CQHIT;
         }
         if(sq.getHits() == 2){
-            this.isSunk = true;
+            this.sunk = true;
             return AtackStatus.SUNK;
         }
 

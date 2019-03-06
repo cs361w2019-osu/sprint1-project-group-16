@@ -8,16 +8,19 @@ public class AttackGameAction {
     @JsonProperty private Game game;
     @JsonProperty private int x;
     @JsonProperty private char y;
+    @JsonProperty private String type;
 
-    public Game getGame() {
+    Game getGame() {
         return game;
     }
 
-    public int getActionRow() {
+    int getActionRow() {
         return x;
     }
 
-    public char getActionColumn() {
+    char getActionColumn() {
         return y;
     }
+
+    String getActionType() { return type; }
 }

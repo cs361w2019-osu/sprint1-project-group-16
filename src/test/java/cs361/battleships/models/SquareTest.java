@@ -53,7 +53,7 @@ public class SquareTest {
         //Tests to see if the reveal functions work
         Square square1 = new Square(1, 'A');
         Square square2 = new Square(2, 'A');
-        square2.revealed();
+        square2.reveal();
 
         assertFalse(square1.isRevealed());
         assertTrue(square2.isRevealed());

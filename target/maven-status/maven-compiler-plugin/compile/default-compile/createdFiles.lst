@@ -5,13 +5,17 @@ conf/Module.class
 conf/Routes.class
 cs361/battleships/models/Board.class
 conf/Filters.class
+cs361/battleships/models/SpaceLaser.class
 controllers/ApplicationController.class
 cs361/battleships/models/AtackStatus.class
+cs361/battleships/models/Bomb.class
 cs361/battleships/models/Destroyer.class
 cs361/battleships/models/Battleship.class
 cs361/battleships/models/Ship.class
+cs361/battleships/models/Arsenal.class
 controllers/AttackGameAction.class
 cs361/battleships/models/Game.class
+cs361/battleships/models/Weapon.class
 cs361/battleships/models/SonarStatus.class
 controllers/PlacementGameAction.class
 cs361/battleships/models/SonarResult.class

@@ -4,6 +4,7 @@ public class Destroyer extends Ship {
 
     public Destroyer() {
         super("DESTROYER");
+        this.size = 3;
     }
 
     @Override
@@ -14,7 +15,7 @@ public class Destroyer extends Ship {
             return AtackStatus.CQHIT;
         }
         if(sq.getHits() == 2){
-            this.isSunk = true;
+            this.sunk = true;
             return AtackStatus.SUNK;
         }
 
