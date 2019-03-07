@@ -4,3 +4,4 @@ jdk: oraclejdk11
 branches:
   only:
     - captainsQuarters
+    - add-spacelaser-weapon
