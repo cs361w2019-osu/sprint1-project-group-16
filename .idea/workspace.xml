@@ -353,8 +353,8 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551904920208" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/test" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551987942018" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
   </component>
   <component name="RecentsManager">
@@ -374,7 +374,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Maven.battleships [ninja:run]">
+  <component name="RunManager" selected="JUnit.TEST">
     <configuration name="BoardTest.testInvalidPlacement" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="battleships" />
       <extension name="coverage">
