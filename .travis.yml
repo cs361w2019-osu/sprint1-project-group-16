@@ -1,7 +1,5 @@
 language: java
-jdk: oraclejdk11
-
+jdk: openjdk10
 branches:
   only:
-    - captainsQuarters
-    - add-spacelaser-weapon
+    - /.*/
