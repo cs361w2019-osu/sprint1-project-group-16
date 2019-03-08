@@ -1,8 +1,8 @@
 package cs361.battleships.models;
 
-public class Battleship extends Ship{
+public class Submarine extends Ship{
 
-    public Battleship(){
+    public Submarine(){
 
         super("SUBMARINE");
         this.size = 4; //Its size is really 5, but one not in a row
