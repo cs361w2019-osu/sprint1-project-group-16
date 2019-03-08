@@ -31,7 +31,6 @@ public class Battleship extends Ship{
                 if(i==3) {
                     occupiedSquares.add(new Square(row + i, col + 1));
                 }
-                }
             } else {
                 occupiedSquares.add(new Square(row, (char) (col + i)));
                 if(i==3) {
