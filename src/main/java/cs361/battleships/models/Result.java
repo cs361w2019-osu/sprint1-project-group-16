@@ -4,26 +4,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Result {
 
-	@JsonProperty private AtackStatus result;
-	@JsonProperty private Square location;
-	@JsonProperty private Ship ship;
+	@JsonProperty protected Status status;
+	@JsonProperty protected Square location;
+	@JsonProperty protected Ship ship;
 
 	@SuppressWarnings("unused")
 	public Result() {
 	}
 
-	public Result(Square location, Ship ship, AtackStatus result) {
-		this.result = result;
+	public Result(Square location, Ship ship, Status status) {
+		this.status = status;
 		this.location = location;
 		this.ship = ship;
 	}
 
-	public AtackStatus getResult() {
-		return result;
+	public Status getStatus(){
+		return this.status;
 	}
 
-	public void setResult(AtackStatus result) {
-		this.result = result;
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public Ship getShip() {
@@ -36,5 +36,9 @@ public class Result {
 
 	public Square getLocation() {
 		return location;
+	}
+
+	public void setLocation(Square location) {
+		this.location = location;
 	}
 }

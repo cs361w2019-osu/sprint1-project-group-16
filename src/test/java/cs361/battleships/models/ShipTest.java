@@ -118,7 +118,7 @@ public class ShipTest {
         minesweeper.addSquares('A', 1, true, false);
         List<Square> squares = minesweeper.getOccupiedSquares();
         Result result = minesweeper.attack(squares.get(0));
-        assertEquals(AtackStatus.HIT, result.getResult());
+        assertEquals(Status.HIT, result.getStatus());
         assertEquals(minesweeper, result.getShip());
         assertEquals(new Square(1, 'A'), result.getLocation());
     }
@@ -132,7 +132,7 @@ public class ShipTest {
         minesweeper.attack(squares.get(0));
         Result result = minesweeper.attack(squares.get(1));
 
-        assertEquals(AtackStatus.SUNK, result.getResult());
+        assertEquals(Status.SUNK, result.getStatus());
         assertEquals(minesweeper, result.getShip());
         assertEquals(new Square(2, 'A'), result.getLocation());
     }
@@ -152,9 +152,9 @@ public class ShipTest {
         minesweeper.addSquares('A', 1, true, false);
         List<Square> squares = minesweeper.getOccupiedSquares();
         var result = minesweeper.attack(squares.get(0));
-        assertEquals(AtackStatus.HIT, result.getResult());
+        assertEquals(Status.HIT, result.getStatus());
         result = minesweeper.attack(squares.get(0));
-        assertEquals(AtackStatus.INVALID, result.getResult());
+        assertEquals(Status.INVALID, result.getStatus());
     }
 
     @Test
@@ -276,6 +276,15 @@ public class ShipTest {
         minesweeper1.attack(cq);
         minesweeper1.attack(cq);
         assertTrue(minesweeper1.isSunk());
+    }
+
+    @Test
+    public void testSubmarineOverlapsBattleship(){
+        Ship battle = new Battleship();
+        Ship sub = new Submarine();
+        battle.addSquares('A', 1, true, false);
+        sub.addSquares('A', 1, false, false);
+        assertTrue(battle.overlaps(sub));
     }
 
 

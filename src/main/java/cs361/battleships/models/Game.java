@@ -2,16 +2,13 @@ package cs361.battleships.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-
-import static cs361.battleships.models.AtackStatus.*;
 
 public class Game {
 
     @JsonProperty private Board playersBoard = new Board();
     @JsonProperty private Board opponentsBoard = new Board();
+
 
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -39,8 +36,8 @@ public class Game {
 	 */
     public boolean attack(int x, char  y) {
         Result playerAttack = opponentsBoard.attack(x, y);
-//        System.out.format("playerattack.getResult(): %s", playerAttack.getResult());
-        if (playerAttack.getResult() == INVALID) {
+//        System.out.format("playerattack.getStatus(): %s", playerAttack.getStatus());
+        if (playerAttack.getStatus() == Status.INVALID) {
             return false;
         }
 
@@ -49,7 +46,7 @@ public class Game {
             // AI does random attacks, so it might attack the same spot twice
             // let it try until it gets it right
             opponentAttackResult = playersBoard.attack(randRow(), randCol());
-        } while(opponentAttackResult.getResult() == INVALID);
+        } while(opponentAttackResult.getStatus() == Status.INVALID);
 
         return true;
     }
@@ -57,6 +54,7 @@ public class Game {
     // perform a sonar action on the opponents board
     public boolean sonarPing(int x, char y){
 
+        // make sure at least one ship is sunk
         boolean shipSunk = false;
         for(Ship ship : opponentsBoard.getShips()){
             if(ship.isSunk()){
@@ -64,6 +62,7 @@ public class Game {
             }
         }
 
+        // if a ship has been sunk, call sonarping on the opponents board
         if(shipSunk){
             boolean result = opponentsBoard.sonarPing(x, y);
             if(!result){
@@ -76,7 +75,7 @@ public class Game {
                 // AI does random attacks, so it might attack the same spot twice
                 // let it try until it gets it right
                 opponentAttackResult = playersBoard.attack(randRow(), randCol());
-            } while(opponentAttackResult.getResult() == INVALID);
+            } while(opponentAttackResult.getStatus() == Status.INVALID);
 
             return true;
         }
@@ -111,5 +110,10 @@ public class Game {
             default:
                 return null;
         }
+    }
+
+    public boolean run(UserAction act){
+        System.out.print("revieved action");
+        return true;
     }
 }

@@ -3,7 +3,10 @@ package cs361.battleships.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Collections;
 import java.util.stream.Collectors;
 import static java.lang.Math.abs;
 
@@ -11,9 +14,9 @@ public class Board {
 
 	@JsonProperty private List<Ship> ships;
 	@JsonProperty private List<Result> attacks;
-	@JsonProperty private List<SonarResult> sonars;
-	@JsonProperty private List<SonarResult> sonarTarget;
-//	@JsonProperty private int sonarAmmo;
+	@JsonProperty private List<Result> sonars;
+	@JsonProperty private List<Result> sonarTarget;
+	@JsonProperty private Map<String, Weapon> weapons;
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -23,7 +26,22 @@ public class Board {
 		this.attacks = new ArrayList<>();
 		this.sonars = new ArrayList<>();
 		this.sonarTarget = new ArrayList<>();
-//		this.sonarAmmo = 2;
+		this.weapons = new HashMap<>();
+
+		this.weapons.put("sonar", new Sonar());
+		this.weapons.put("bomb", new Bomb());
+		this.weapons.put("spacelaser", new SpaceLaser());
+	}
+
+	public void init(){
+
+	}
+
+	private void addToSonarList(List<Result> result){
+		List<Result> tmp = new ArrayList<>();
+		tmp.addAll(result);
+		tmp.addAll(sonars);
+		sonars = tmp;
 	}
 
 	/*
@@ -37,9 +55,13 @@ public class Board {
 		ship.addSquares(y, x, isVertical, true);
 
 		if (ships.stream().anyMatch(s -> s.overlaps(ship))) {
+			if(ship.underwater){
+				ships.add(ship);
+				return true;
+			}
 			return false;
 		}
-		if (ship.getOccupiedSquares().stream().anyMatch(s -> s.isOutOfBounds())) {
+		if (ship.getOccupiedSquares().stream().anyMatch(Square::isOutOfBounds)) {
 			return false;
 		}
 		ships.add(ship);
@@ -48,51 +70,18 @@ public class Board {
 	}
 
 	public boolean sonarPing(int row, char column){
+		var sonar = weapons.get("sonar");
+		var sonarSuccess = sonar.use(null,this, new Square(row, column));
 
-		// the player has used up all sonarAmmo
-		if(sonarTarget.size() == 2){ return false; }
-
-		int y = row-1;
-		int x = ((int)column)-65;
-
-		// sonarPing is a 5x5 square centered at x,y
-		for(int m = -2; m <= 2; m++){
-			for(int i = x-(2-abs(m)); i <= x+(2-abs(m)); i++){
-				int j = y + m;
-				if( i >= 0 && j >= 0 &&  i < 10 && j < 10){
-
-					boolean shipFound = false;
-					SonarResult result =  new SonarResult();
-
-					for(Ship ship : this.ships) {
-
-						for(Square sq : ship.getOccupiedSquares()){
-
-							if(sq.getColumn() == (char)(i + 65) && sq.getRow() == j+1){
-
-								sq.reveal();
-								result.setLocation(sq);
-								result.setStatus(SonarStatus.SHIP);
-								shipFound = true;
-							}
-						}
-					}
-
-					if(!shipFound){
-
-						Square current = new Square(j+1, ((char)(i +65)));
-						result.setLocation(current);
-						result.setStatus(SonarStatus.EMPTY);
-					}
-
-					if( j+1 == row && ((char)i + 65) == column){
-						sonarTarget.add(result);
-					}
-
-					sonars.add(result);
-				}
-			}
+		if(!sonarSuccess){
+			return false;
 		}
+		var targetResult = sonar.getTargetResult();
+		sonarTarget.add(targetResult);
+
+		var sonarResults = sonar.getSonarResult();
+		addToSonarList(sonarResults);
+
 		return true;
 	}
 
@@ -100,54 +89,41 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Result attack(int x, char y) {
-
-		Result attackResult = attack(new Square(x, y));
-		attacks.add(attackResult);
-		return attackResult;
+		var bomb = weapons.get("bomb");
+		bomb.use(null,this, new Square(x, y));
+		attacks.add(bomb.getTargetResult());
+		return attacks.get(attacks.size()-1);
 	}
 
-	private Result attack(Square s) {
-		var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(s)).collect(Collectors.toList());
 
+	public Result spacelaser(int x, char y) {
+		var spacelaser = weapons.get("spacelaser");
 
-		for(Result atk : attacks) {
-			if (atk.getLocation().equals(s)) {
-				if (shipsAtLocation.size() == 0) {
-					return new Result(s, null, AtackStatus.INVALID);
-				}
-				return new Result(s, shipsAtLocation.get(0), AtackStatus.INVALID);
+		for (Ship ship : this.getShips()) {
+			if (ship.isSunk()) {
+				spacelaser.unlock();
 			}
 		}
 
-		if (shipsAtLocation.size() == 0) {
-
-			return new Result(s, null, AtackStatus.MISS);
-		}
-
-		var hitShip = shipsAtLocation.get(0);
-
-		Square hitSquare = null;
-		for(Square sq : hitShip.getOccupiedSquares()) {
-			if (sq.getRow() == s.getRow() && sq.getColumn() == s.getColumn()) {
-				hitSquare = sq;
+		for (Ship ship : this.getShips()) {
+			if (ship.isAtLocation(new Square(x, y))) {
+				spacelaser.use(ship, this, new Square(x, y));
+				attacks.add(spacelaser.getTargetResult());
 			}
 		}
 
-		var attackResult = hitShip.attack(hitSquare);
-
-		if (attackResult.getResult() == AtackStatus.SUNK) {
-			if (ships.stream().allMatch(Ship::isSunk)) {
-				attackResult.setResult(AtackStatus.SURRENDER);
-			}
-		}
-		return attackResult;
+		return attacks.get(attacks.size()-1);
 	}
 
 	List<Ship> getShips() {
 		return ships;
 	}
 
-	List<SonarResult> getSonars(){
+	List<Result> getAttacks(){
+		return this.attacks;
+	}
+
+	List<Result> getSonars(){
 		return this.sonars;
 	}
 }

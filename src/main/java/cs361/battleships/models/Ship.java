@@ -15,6 +15,7 @@ public abstract class Ship {
 	@JsonProperty private String kind;
 	@JsonProperty protected int size;
 	@JsonProperty boolean sunk;
+	@JsonProperty boolean underwater;
 
 	public Ship() { this.occupiedSquares = new ArrayList<>(); }
 	
@@ -73,7 +74,7 @@ public abstract class Ship {
 
 
 	// function will be overridden by sub classes
-	public abstract AtackStatus handleCQ(Square sq);
+	public abstract Status handleCQ(Square sq);
 
 	/**
 	 * Attacks square in ship
@@ -81,12 +82,12 @@ public abstract class Ship {
 	 * @return result of attack
 	 */
 	public Result attack(Square hitSq) {
-		AtackStatus status; // status after attack action
+		Status status; // status after attack action
 
 		// if there is a ship at this squares location and it
 		// is already sunk, status = MISS
 		if(this.sunk){
-			status = AtackStatus.MISS;
+			status = Status.MISS;
 		}
 		// if the attacked square is a captiansQuarters call the subclass's
 		// handleCQ function.
@@ -95,7 +96,7 @@ public abstract class Ship {
 		}
 		// If the square has already been hit and it wasn't a CQ square
 		else if (hitSq.getHits() >=1) {
-			status = AtackStatus.INVALID;
+			status = Status.INVALID;
 		}
 		// else a non-CQ ship square occupies this space. Increment the squares'
 		// hit count and set ship::sunk to true. Iterate through all squares
@@ -110,10 +111,10 @@ public abstract class Ship {
 			}
 
 			if (this.isSunk()){
-				status = AtackStatus.SUNK;
+				status = Status.SUNK;
 			}
 			else {
-				status = AtackStatus.HIT;
+				status = Status.HIT;
 			}
 		}
 
@@ -121,44 +122,6 @@ public abstract class Ship {
 		Square sq = new Square(hitSq);
 		return new Result(sq, this, status);
 	}
-
-//		var square = getOccupiedSquares().stream().filter(s -> s.equals(attackedLocation)).findFirst();
-//
-//		if (!square.isPresent()) {
-//			return new Result(attackedLocation);
-//		}
-//
-//		var attackedSquare = square.get();
-//		if (attackedSquare.isHit()) {
-//			var result = new Result(attackedLocation);
-//			result.setResult(AtackStatus.INVALID);
-//			return result;
-//		}
-//
-//		if (attackedSquare.isCQ()){
-//			System.out.format("captains quarters hit");
-//			attackedSquare.setCQHits(attackedSquare.getCQHits()+1);
-//			if(attackedSquare.getCQHits() >= attackedSquare.getMaxHits()){
-//				System.out.format("ship sunk due to captians quarters");
-//				var result = new Result(attackedLocation);
-//				result.setShip(this);
-//				result.setResult(AtackStatus.CQSUNK);
-//				return result;
-//			}
-//		}
-//
-//		attackedSquare.hit();
-//
-//		var result = new Result(attackedLocation);
-//		result.setShip(this);
-//		if (sunk()) {
-//			result.setResult(AtackStatus.SUNK);
-//		} else {
-//			result.setResult(AtackStatus.HIT);
-//		}
-//		return result;
-//	}
-
 
 
 	@Override
@@ -182,4 +145,6 @@ public abstract class Ship {
 	public String toString() {
 		return kind + occupiedSquares.toString();
 	}
+
+	public abstract void setUnderwater(boolean under);
 }

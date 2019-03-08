@@ -1,10 +1,9 @@
 package cs361.battleships.models;
 
-public class Destroyer extends Ship {
-
-    public Destroyer() {
-        super("DESTROYER");
-        this.size = 3;
+public class Submarine extends Ship {
+    public Submarine(){
+        super("SUBMARINE");
+        this.size = 5;
         this.underwater = false;
     }
 
@@ -24,6 +23,6 @@ public class Destroyer extends Ship {
     }
 
     public void setUnderwater(boolean underwater){
-        this.underwater = false;
+        this.underwater = underwater;
     }
 }
