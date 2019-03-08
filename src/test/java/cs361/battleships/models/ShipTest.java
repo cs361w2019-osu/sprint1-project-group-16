@@ -326,8 +326,6 @@ public class ShipTest {
             submarine1.setCapQrts(true);
 
             assertFalse(minesweeper1.overlaps(submarine1));
-
-            assertTrue(minesweeper1.isSunk());
         }
 
 }
