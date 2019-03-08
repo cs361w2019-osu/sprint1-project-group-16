@@ -60,6 +60,9 @@ public abstract class Ship {
 	}
 
 	boolean overlaps(Ship other) {
+		if(other.getKind() == "SUBMARINE" || this.getKind() == "SUBMARINE") { // Submarines can be in the same square as other ships
+			return false;
+		}
 		Set<Square> thisSquares = Set.copyOf(getOccupiedSquares());
 		Set<Square> otherSquares = Set.copyOf(other.getOccupiedSquares());
 		Sets.SetView<Square> intersection = Sets.intersection(thisSquares, otherSquares);

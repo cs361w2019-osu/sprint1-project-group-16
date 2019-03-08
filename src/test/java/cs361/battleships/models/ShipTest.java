@@ -278,5 +278,55 @@ public class ShipTest {
         assertTrue(minesweeper1.isSunk());
     }
 
+    //The next two methods should not work unless the spacelaser is implemented, they work right now since spacelaser is not implemented
+    @Test
+    public void testSubmarineCQHitOnceNotSunk() {
+        Ship minesweeper1 = new Submarine();
+        minesweeper1.addSquares('A', 1, true, true);
+        minesweeper1.setCapQrts(true);
+        List<Square> squares = minesweeper1.getOccupiedSquares();
+        Square cq = null;
+        for(Square sq : squares){
+            if(sq.isCQ()){
+                cq = new Square(sq);
+                break;
+            }
+        }
+        minesweeper1.attack(cq);
+        assertTrue(!minesweeper1.isSunk());
+
+
+    @Test
+    public void testSubmarineCQHitSink(){
+        Ship minesweeper1 = new Submarine();
+        minesweeper1.addSquares('A', 1, true, true);
+        minesweeper1.setCapQrts(true);
+        List<Square> squares = minesweeper1.getOccupiedSquares();
+        Square cq = null;
+        for(Square sq : squares){
+            if(sq.isCQ()){
+                cq = new Square(sq);
+                break;
+            }
+        }
+        minesweeper1.attack(cq);
+        minesweeper1.attack(cq);
+        assertTrue(minesweeper1.isSunk());
+    }
+
+        @Test
+        public void testSubmarineOverlap(){
+            Ship minesweeper1 = new Battleship();
+            minesweeper1.addSquares('A', 1, true, true);
+            minesweeper1.setCapQrts(true);
+
+            Ship submarine1 = new Submarine();
+            submarine1.addSqaures('A', 1 , true, true);
+            submarine1.setCapQrts(true);
+
+            assertFalse(minesweeper1.overlaps(submarine1));
+
+            assertTrue(minesweeper1.isSunk());
+        }
 
 }
