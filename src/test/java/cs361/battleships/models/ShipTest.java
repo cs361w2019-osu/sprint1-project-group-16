@@ -286,14 +286,15 @@ public class ShipTest {
         minesweeper1.setCapQrts(true);
         List<Square> squares = minesweeper1.getOccupiedSquares();
         Square cq = null;
-        for(Square sq : squares){
-            if(sq.isCQ()){
+        for (Square sq : squares) {
+            if (sq.isCQ()) {
                 cq = new Square(sq);
                 break;
             }
         }
         minesweeper1.attack(cq);
         assertTrue(!minesweeper1.isSunk());
+    }
 
 
     @Test
