@@ -1,6 +1,2 @@
 language: java
-jdk: oraclejdk11
-
-branches:
-  only:
-    - captainsQuarters
+jdk: openjdk10
