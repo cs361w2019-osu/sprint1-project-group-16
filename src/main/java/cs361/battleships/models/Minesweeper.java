@@ -6,11 +6,16 @@ public class Minesweeper extends Ship{
 
         super("MINESWEEPER");
         this.size = 2;
+        this.underwater = false;
     }
 
     @Override
-    public AtackStatus handleCQ(Square sq){
+    public Status handleCQ(Square sq){
         this.sunk = true;
-        return AtackStatus.SUNK;
+        return Status.SUNK;
+    }
+
+    public void setUnderwater(boolean underwater){
+        this.underwater = false;
     }
 }

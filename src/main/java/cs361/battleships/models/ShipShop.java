@@ -12,6 +12,8 @@ public class ShipShop {
                 return new Destroyer();
             case "BATTLESHIP":
                 return new Battleship();
+            case "SUBMARINE":
+                return new Submarine();
             default:
                 return null;
         }

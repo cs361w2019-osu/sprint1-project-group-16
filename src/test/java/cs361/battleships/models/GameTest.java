@@ -64,13 +64,14 @@ public class GameTest {
         Board b = game.getBoard("opponent");
         b.getShips().get(0).sunk = true;
         assertTrue(game.sonarPing(5, 'D'));
+        assertTrue(game.sonarPing(8, 'A'));
 
-        SonarResult result = null;
-        for(SonarResult s : b.getSonars()){
-            if(s.getStatus() == SonarStatus.SHIP){
+        Result result = null;
+        for(Result s : b.getSonars()){
+            if(s.getStatus() == Status.SHIP){
                 result = s;
             }
         }
-        assertEquals(result.getStatus(), SonarStatus.SHIP);
+        assertEquals(result.getStatus(), Status.SHIP);
     }
 }

@@ -2,6 +2,7 @@ cs361/battleships/models/Minesweeper.class
 cs361/battleships/models/ShipShop.class
 cs361/battleships/models/Result.class
 conf/Module.class
+cs361/battleships/models/Sonar.class
 conf/Routes.class
 cs361/battleships/models/Board.class
 conf/Filters.class
@@ -12,7 +13,7 @@ cs361/battleships/models/Bomb.class
 cs361/battleships/models/Destroyer.class
 cs361/battleships/models/Battleship.class
 cs361/battleships/models/Ship.class
-cs361/battleships/models/Arsenal.class
+cs361/battleships/models/WeaponFactory.class
 controllers/AttackGameAction.class
 cs361/battleships/models/Game.class
 cs361/battleships/models/Weapon.class
@@ -20,3 +21,4 @@ cs361/battleships/models/SonarStatus.class
 controllers/PlacementGameAction.class
 cs361/battleships/models/SonarResult.class
 cs361/battleships/models/Square.class
+cs361/battleships/models/UserAction.class

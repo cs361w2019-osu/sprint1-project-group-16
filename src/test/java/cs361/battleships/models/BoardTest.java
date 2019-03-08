@@ -14,6 +14,7 @@ public class BoardTest {
     @Before
     public void setUp() {
         board = new Board();
+//        board.init();
     }
 
     @Test
@@ -28,9 +29,10 @@ public class BoardTest {
 
     @Test
     public void testAttackEmptySquare() {
+
         board.placeShip(new Minesweeper(), 1, 'A', true);
         Result result = board.attack(2, 'E');
-        assertEquals(AtackStatus.MISS, result.getResult());
+        assertEquals(Status.MISS, result.getStatus());
     }
 
     @Test
@@ -40,7 +42,7 @@ public class BoardTest {
         minesweeper = board.getShips().get(0);
         minesweeper.setCapQrts(false);
         Result result = board.attack(1, 'A');
-        assertEquals(AtackStatus.HIT, result.getResult());
+        assertEquals(Status.HIT, result.getStatus());
         assertEquals(minesweeper, result.getShip());
     }
 
@@ -50,25 +52,26 @@ public class BoardTest {
         board.placeShip(minesweeper, 1, 'A', true);
         board.attack(1, 'A');
         Result result = board.attack(1, 'A');
-        assertEquals(AtackStatus.INVALID, result.getResult());
+        assertEquals(Status.INVALID, result.getStatus());
     }
 
     @Test
     public void testAttackSameEmptySquareMultipleTimes() {
         Result initialResult = board.attack(1, 'A');
-        assertEquals(AtackStatus.MISS, initialResult.getResult());
+        assertEquals(Status.MISS, initialResult.getStatus());
         Result result = board.attack(1, 'A');
-        assertEquals(AtackStatus.INVALID, result.getResult());
+        assertEquals(Status.INVALID, result.getStatus());
     }
 
     @Test
     public void testSurrender() {
-        board.placeShip(new Minesweeper(), 1, 'A', true);
+        assertTrue(board.placeShip(new Minesweeper(), 1, 'A', true));
         board.getShips().get(0).setCapQrts(false);
-        board.attack(1, 'A');
-        var result = board.attack(2, 'A');
-        assertEquals(AtackStatus.SURRENDER, result.getResult());
+        var result = board.attack(1, 'A');
+        result = board.attack(2, 'A');
+        assertEquals(Status.SURRENDER, result.getStatus());
     }
+
 
     @Test
     public void testPlaceMultipleShipsOfSameType() {
@@ -108,8 +111,8 @@ public class BoardTest {
         Ship ship = new Battleship();
         board.placeShip(ship, 5, 'E', true);
         board.sonarPing(5, 'E');
-        for(SonarResult sr : board.getSonars()){
-            if(sr.getStatus() == SonarStatus.SHIP){
+        for(Result sr : board.getSonars()){
+            if(sr.getStatus() == Status.SHIP){
                 assertTrue(ship.isAtLocation(sr.getLocation()));
             }
         }
@@ -119,11 +122,90 @@ public class BoardTest {
     public void testPingDoesntFindShip(){
         boolean foundShip = false;
         board.sonarPing(5, 'E');
-        for(SonarResult sr : board.getSonars()){
-            if(sr.getStatus() == SonarStatus.SHIP){
+        for(Result sr : board.getSonars()){
+            if(sr.getStatus() == Status.SHIP){
                 foundShip = true;
             }
         }
         assertFalse(foundShip);
+    }
+
+    @Test
+    public void testSpaceLaserNotUnlocked(){
+        Ship ship = new Battleship();
+        board.placeShip(ship, 5, 'E', true);
+        var result = board.spacelaser(5, 'E');
+        assertEquals(result.getStatus(), Status.INVALID);
+    }
+
+    @Test
+    public void testSpaceLaserAttack(){
+        Ship ship1 = new Minesweeper();
+        ship1.sunk = true;
+        Ship ship2 = new Destroyer();
+        board.placeShip(ship1, 5, 'E', true);
+        board.placeShip(ship2, 1, 'A', false);
+        var result = board.spacelaser(1, 'A');
+        assertEquals(Status.HIT, result.getStatus());
+    }
+
+    @Test
+    public void testSpaceLaserHitsUnderWaterShip(){
+        Ship ship1 = new Minesweeper();
+        ship1.sunk = true;
+        Ship submarine = new Submarine();
+        submarine.setUnderwater(true);
+
+        board.placeShip(ship1, 5, 'E', true);
+        board.placeShip(submarine, 1, 'A', false);
+
+        var result = board.spacelaser(1, 'A');
+        assertEquals(Status.HIT, result.getStatus());
+    }
+
+    @Test
+    public void testSpaceLaserHitsSubAndShip(){
+        Ship ship1 = new Minesweeper();
+        ship1.sunk = true;
+        Ship submarine = new Submarine();
+        submarine.setUnderwater(true);
+
+        board.placeShip(ship1, 5, 'E', true);
+        board.placeShip(submarine, 5, 'E', true);
+        assertTrue(ship1.overlaps(submarine));
+
+        board.spacelaser(5, 'E');
+
+    }
+
+
+    @Test
+    public void testSubmarineOverlapsShip(){
+        Ship ship1 = new Battleship();
+        Ship submarine = new Submarine();
+        Ship sunkShip = new Minesweeper();
+
+        submarine.setUnderwater(true);
+        sunkShip.sunk = true;
+
+        board.placeShip(sunkShip, 1, 'A', true);
+        board.placeShip(ship1, 5, 'E', true);
+        assertTrue(board.placeShip(submarine, 5, 'E', true));
+        assertTrue(ship1.overlaps(submarine));
+        var result = board.spacelaser(5, 'E');
+        assertEquals(result.getStatus(), Status.HIT);
+
+        boolean ship1Hit = false;
+        boolean subHit = false;
+        for(Square sq : ship1.getOccupiedSquares()){
+            if(sq.getHits() > 0){ ship1Hit = true;}
+        }
+        for(Square sq : submarine.getOccupiedSquares()){
+            if(sq.getHits() > 0){ subHit = true; }
+        }
+
+        assertTrue(ship1Hit);
+        assertTrue(subHit);
+
     }
 }
