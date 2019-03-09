@@ -31,6 +31,11 @@ var shipTypes = {
     'BATTLESHIP': {
         type: 'BATTLESHIP',
         length: 4
+    },
+     'SUBMARINE': {
+            type: 'SUBMARINE',
+         length: 5
+
     }
 };
 
@@ -43,7 +48,10 @@ var shipsLeft = {
     },
     'BATTLESHIP': {
         'available': 1
-    }
+    },
+    'SUBMARINE': {
+        'available': 1
+        }
 };
 
 function makeGrid(table, isPlayer) {
@@ -188,6 +196,9 @@ function registerCellListener(f) {
 function cellClick() {
     let row = this.parentNode.rowIndex + 1;
     let col = String.fromCharCode(this.cellIndex + 65);
+    if(ship === undefined){
+        alert('BAD TIMES AHEAD');
+    }
     if (isSetup) {
         if(this.parentNode.parentNode.id == 'opponent') {
             alert('Place ships on your board only');
@@ -198,7 +209,7 @@ function cellClick() {
                 redrawGrid();
                 placedShips++;
                 (shipsLeft[ship.type].available)--;
-                if (placedShips == 3) {
+                if (placedShips == 4) {
                     isSetup = false;
                     beginBanner();
                     registerCellListener((e) => {});
