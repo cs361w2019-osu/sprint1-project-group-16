@@ -49,8 +49,8 @@ var shipsLeft = {
     'BATTLESHIP': {
         'available': 1
     },
-        'SUBMARINE': {
-            'available': 1
+    'SUBMARINE': {
+        'available': 1
         }
 };
 
@@ -206,7 +206,7 @@ function cellClick() {
                 redrawGrid();
                 placedShips++;
                 (shipsLeft[ship.type].available)--;
-                if (placedShips == 3) {
+                if (placedShips == 4) {
                     isSetup = false;
                     beginBanner();
                     registerCellListener((e) => {});

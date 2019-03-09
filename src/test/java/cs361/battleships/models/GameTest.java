@@ -70,6 +70,7 @@ public class GameTest {
         for(Result s : b.getSonars()){
             if(s.getStatus() == Status.SHIP){
                 result = s;
+                break;
             }
         }
         assertEquals(result.getStatus(), Status.SHIP);

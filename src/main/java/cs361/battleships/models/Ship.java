@@ -11,7 +11,7 @@ import java.util.Set;
 @JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, property="@class")
 public abstract class Ship {
 
-	@JsonProperty private List<Square> occupiedSquares;
+	@JsonProperty protected List<Square> occupiedSquares;
 	@JsonProperty private String kind;
 	@JsonProperty protected int size;
 	@JsonProperty boolean sunk;
