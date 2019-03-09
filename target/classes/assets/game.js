@@ -31,6 +31,11 @@ var shipTypes = {
     'BATTLESHIP': {
         type: 'BATTLESHIP',
         length: 4
+    },
+     'SUBMARINE': {
+            type: 'SUBMARINE',
+         length: 5
+
     }
 };
 
@@ -43,7 +48,10 @@ var shipsLeft = {
     },
     'BATTLESHIP': {
         'available': 1
-    }
+    },
+        'SUBMARINE': {
+            'available': 1
+        }
 };
 
 function makeGrid(table, isPlayer) {
